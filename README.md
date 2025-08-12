@@ -199,7 +199,7 @@ interface Project {
 ### Installation
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/gtd-org-front.git
+git clone https://github.com/penguinstud/gtd-org-front.git
 cd gtd-org-front
 
 # Install dependencies

@@ -104,14 +104,14 @@
     "nextjs",
     "typescript"
   ],
-  "author": "Your Name",
+  "author": "penguinstud",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/gtd-org-front.git"
+    "url": "https://github.com/penguinstud/gtd-org-front.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/gtd-org-front/issues"
+    "url": "https://github.com/penguinstud/gtd-org-front/issues"
   },
-  "homepage": "https://github.com/yourusername/gtd-org-front#readme"
+  "homepage": "https://github.com/penguinstud/gtd-org-front#readme"
 }
