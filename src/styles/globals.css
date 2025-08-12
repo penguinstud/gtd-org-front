@@ -1,0 +1,177 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@layer base {
+  :root {
+    /* Premium Design System CSS Variables */
+    --background: 0 0% 100%;
+    --foreground: 224 71.4% 4.1%;
+    --card: 0 0% 100%;
+    --card-foreground: 224 71.4% 4.1%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71.4% 4.1%;
+    --primary: 215 100% 46%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 220 8.9% 46.1%;
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 220 8.9% 46.1%;
+    --accent: 220 14.3% 95.9%;
+    --accent-foreground: 220 8.9% 46.1%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 215 100% 46%;
+    --radius: 0.5rem;
+
+    /* Premium Color Palette */
+    --workspace-bg: #F6F7FB;
+    --header-bg: #323338;
+    --surface-bg: #FFFFFF;
+    --overlay-bg: rgba(0, 0, 0, 0.4);
+
+    /* Status Colors */
+    --status-success: #00CA72;
+    --status-progress: #F0D000;
+    --status-blocked: #E2445C;
+    --status-planning: #9D4EDD;
+
+    /* Context Colors */
+    --context-work: #0073EA;
+    --context-home: #9D4EDD;
+
+    /* Typography Scale */
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 1.875rem;
+    --text-4xl: 2.25rem;
+
+    /* Premium Shadows */
+    --shadow-premium: 0 4px 20px rgba(0, 115, 234, 0.1);
+    --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.15);
+    --shadow-glassmorphic: 0 8px 32px rgba(31, 38, 135, 0.15);
+  }
+
+  .dark {
+    --background: 224 71.4% 4.1%;
+    --foreground: 0 0% 100%;
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 0 0% 100%;
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 215 100% 46%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 215 100% 46%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-workspace text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  /* Premium Typography Classes */
+  .text-premium-xs { font-size: var(--text-xs); }
+  .text-premium-sm { font-size: var(--text-sm); }
+  .text-premium-base { font-size: var(--text-base); }
+  .text-premium-lg { font-size: var(--text-lg); }
+  .text-premium-xl { font-size: var(--text-xl); }
+  .text-premium-2xl { font-size: var(--text-2xl); }
+  .text-premium-3xl { font-size: var(--text-3xl); }
+  .text-premium-4xl { font-size: var(--text-4xl); }
+
+  /* Glassmorphism Effects */
+  .glassmorphic {
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .glassmorphic-dark {
+    backdrop-filter: blur(20px);
+    background: rgba(50, 51, 56, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Premium Card Styles */
+  .premium-card {
+    @apply bg-surface rounded-lg shadow-card border border-gray-100 p-6;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .premium-card:hover {
+    @apply shadow-card-hover;
+    transform: translateY(-2px);
+  }
+
+  /* Status Indicator Classes */
+  .status-success { color: var(--status-success); }
+  .status-progress { color: var(--status-progress); }
+  .status-blocked { color: var(--status-blocked); }
+  .status-planning { color: var(--status-planning); }
+
+  .bg-status-success { background-color: var(--status-success); }
+  .bg-status-progress { background-color: var(--status-progress); }
+  .bg-status-blocked { background-color: var(--status-blocked); }
+  .bg-status-planning { background-color: var(--status-planning); }
+
+  /* Context Classes */
+  .context-work { color: var(--context-work); }
+  .context-home { color: var(--context-home); }
+
+  .bg-context-work { background-color: var(--context-work); }
+  .bg-context-home { background-color: var(--context-home); }
+
+  /* Smooth transitions for all interactive elements */
+  .transition-premium {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Focus styles for accessibility */
+  .focus-premium:focus {
+    @apply outline-none ring-2 ring-primary ring-offset-2;
+  }
+
+  /* Premium scrollbar */
+  .premium-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .premium-scrollbar::-webkit-scrollbar-track {
+    @apply bg-gray-100 rounded-full;
+  }
+
+  .premium-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 rounded-full;
+  }
+
+  .premium-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400;
+  }
+}
+
+/* Import Inter font if not available */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');

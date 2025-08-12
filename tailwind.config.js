@@ -17,59 +17,90 @@ module.exports = {
     },
     extend: {
       colors: {
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
+        // Premium Design System Colors
         primary: {
-          DEFAULT: '#0073EA',
+          DEFAULT: '#0073EA', // Professional blue
+          50: '#E6F3FF',
+          100: '#CCE7FF',
+          200: '#99CFFF',
+          300: '#66B7FF',
+          400: '#339FFF',
+          500: '#0073EA', // Main
+          600: '#0056B3',
+          700: '#003D7A',
+          800: '#002952',
+          900: '#001429',
           light: '#4A9EFF',
           dark: '#0056B3',
-          foreground: 'hsl(var(--primary-foreground))',
+          foreground: '#FFFFFF',
         },
-        secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
-        },
-        destructive: {
-          DEFAULT: '#E2445C',
-          foreground: 'hsl(var(--destructive-foreground))',
-        },
-        muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
-        },
-        accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
-        },
-        popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
-        },
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
-        },
-        // GTD-specific colors
+        
+        // Premium Background System
+        workspace: '#F6F7FB', // Light gray workspace
+        header: '#323338', // Dark header
+        surface: '#FFFFFF', // White cards/surfaces
+        overlay: 'rgba(0, 0, 0, 0.4)', // Modal overlays
+        
+        // Status Color System
         status: {
-          todo: '#C4C4C4',
-          next: '#FF9500',
-          waiting: '#F0D000',
-          done: '#00CA72',
-          someday: '#9D9D9D',
-          canceled: '#E2445C',
+          success: '#00CA72', // Green - completed/done
+          progress: '#F0D000', // Yellow - in progress/waiting
+          blocked: '#E2445C', // Red - blocked/canceled
+          planning: '#9D4EDD', // Purple - planning/someday
+          todo: '#C4C4C4', // Light gray - not started
+          next: '#FF9500', // Orange - ready to work on
+          waiting: '#F0D000', // Yellow - blocked/waiting
+          done: '#00CA72', // Green - completed
+          someday: '#9D9D9D', // Medium gray - someday/maybe
+          canceled: '#E2445C', // Red - canceled
         },
+        
+        // Priority System
         priority: {
+          high: '#E2445C', // Red - Priority A
+          medium: '#FF9500', // Orange - Priority B
+          low: '#0073EA', // Blue - Priority C
+          none: '#676879', // Neutral gray - No priority
           a: '#E2445C',
           b: '#FF9500',
           c: '#0073EA',
-          none: '#676879',
         },
+        
+        // Context Colors
         context: {
-          work: '#0073EA',
-          home: '#9D4EDD',
+          work: '#0073EA', // Work context - blue
+          home: '#9D4EDD', // Home context - purple
+        },
+        
+        // Semantic Colors
+        border: '#E1E5E9',
+        input: '#F8F9FB',
+        ring: '#0073EA',
+        background: '#FFFFFF',
+        foreground: '#1A1D29',
+        secondary: {
+          DEFAULT: '#F8F9FB',
+          foreground: '#676879',
+        },
+        destructive: {
+          DEFAULT: '#E2445C',
+          foreground: '#FFFFFF',
+        },
+        muted: {
+          DEFAULT: '#F8F9FB',
+          foreground: '#676879',
+        },
+        accent: {
+          DEFAULT: '#F8F9FB',
+          foreground: '#1A1D29',
+        },
+        popover: {
+          DEFAULT: '#FFFFFF',
+          foreground: '#1A1D29',
+        },
+        card: {
+          DEFAULT: '#FFFFFF',
+          foreground: '#1A1D29',
         },
       },
       borderRadius: {
@@ -78,7 +109,7 @@ module.exports = {
         sm: 'calc(var(--radius) - 4px)',
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
       },
       keyframes: {
@@ -106,6 +137,16 @@ module.exports = {
           from: { opacity: 0, transform: 'scale(0.95)' },
           to: { opacity: 1, transform: 'scale(1)' },
         },
+        'glassmorphism': {
+          '0%': { 
+            backdropFilter: 'blur(10px)',
+            background: 'rgba(255, 255, 255, 0.1)'
+          },
+          '100%': { 
+            backdropFilter: 'blur(20px)',
+            background: 'rgba(255, 255, 255, 0.2)'
+          },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -114,6 +155,7 @@ module.exports = {
         'slide-up': 'slide-up 0.2s ease-out',
         'fade-in': 'fade-in 0.2s ease-out',
         'scale-in': 'scale-in 0.2s ease-out',
+        'glassmorphism': 'glassmorphism 0.3s ease-in-out',
       },
       spacing: {
         '18': '4.5rem',
@@ -125,6 +167,15 @@ module.exports = {
       },
       maxWidth: {
         '8xl': '88rem',
+      },
+      backdropBlur: {
+        xs: '2px',
+      },
+      boxShadow: {
+        'premium': '0 4px 20px rgba(0, 115, 234, 0.1)',
+        'card': '0 2px 8px rgba(0, 0, 0, 0.1)',
+        'card-hover': '0 8px 24px rgba(0, 0, 0, 0.15)',
+        'glassmorphic': '0 8px 32px rgba(31, 38, 135, 0.15)',
       },
     },
   },
