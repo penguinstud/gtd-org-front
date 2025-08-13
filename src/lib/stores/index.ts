@@ -15,3 +15,6 @@ export { useTaskStore, type TaskStore, type TaskStats } from './taskStore'
 
 // Export store types for TypeScript
 export type { Task, Project, Context, TaskStatus, Priority } from '../types'
+
+// Export ProjectStats from BaseTaskStore
+export type { ProjectStats } from './base/BaseTaskStore'

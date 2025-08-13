@@ -27,6 +27,21 @@ export interface TaskStats {
 }
 
 /**
+ * Project statistics interface
+ */
+export interface ProjectStats {
+  projectId: string
+  projectTitle: string
+  totalTasks: number
+  completedTasks: number
+  overdueTasks: number
+  completionPercentage: number
+  lastModified: Date
+  status: 'ACTIVE' | 'SOMEDAY' | 'COMPLETED' | 'ARCHIVED'
+  priority: Priority
+}
+
+/**
  * Base store methods that all task stores will share
  */
 export interface BaseTaskStoreMethods {
@@ -49,6 +64,12 @@ export interface BaseTaskStoreMethods {
   getTodaysTasks: () => Task[]
   getScheduledTasksForDate: (date: Date) => Task[]
   getTaskStats: () => TaskStats
+  
+  // Project-related methods
+  getProjects: () => Project[]
+  getProjectStats: (projectId: string) => ProjectStats | null
+  getAllProjectStats: () => ProjectStats[]
+  getProjectOverallStats: () => { totalProjects: number; overallCompletionRate: number; totalOverdueTasks: number }
   
   // Sync operations
   syncData: () => Promise<void>
@@ -214,6 +235,66 @@ export function createBaseStoreImplementation<T extends BaseTaskStore>(
         byPriority,
         byContext,
         completionRate
+      }
+    },
+    
+    // Project-related methods
+    getProjects: (): Project[] => {
+      return get().projects
+    },
+    
+    getProjectStats: (projectId: string): ProjectStats | null => {
+      const project = get().projects.find(p => p.id === projectId || p.title === projectId)
+      if (!project) return null
+      
+      const tasks = get().tasks.filter(t => t.project === project.title)
+      const completedTasks = tasks.filter(t => t.status === 'DONE').length
+      const overdueTasks = tasks.filter(t => {
+        if (!t.deadline || t.status === 'DONE' || t.status === 'CANCELED') {
+          return false
+        }
+        return new Date(t.deadline) < new Date()
+      }).length
+      
+      const lastModified = tasks.reduce((latest, task) => {
+        const taskModified = new Date(task.modified)
+        return taskModified > latest ? taskModified : latest
+      }, project.modified)
+      
+      return {
+        projectId: project.id,
+        projectTitle: project.title,
+        totalTasks: tasks.length,
+        completedTasks,
+        overdueTasks,
+        completionPercentage: tasks.length > 0 ? (completedTasks / tasks.length) * 100 : 0,
+        lastModified,
+        status: project.status,
+        priority: project.priority
+      }
+    },
+    
+    getAllProjectStats: (): ProjectStats[] => {
+      const projects = get().projects
+      return projects.map(project => {
+        const stats = get().getProjectStats(project.title)
+        return stats!
+      }).filter(Boolean)
+    },
+    
+    getProjectOverallStats: () => {
+      const allStats = get().getAllProjectStats()
+      const totalProjects = allStats.length
+      const totalOverdueTasks = allStats.reduce((sum, stat) => sum + stat.overdueTasks, 0)
+      
+      const totalTasks = allStats.reduce((sum, stat) => sum + stat.totalTasks, 0)
+      const totalCompleted = allStats.reduce((sum, stat) => sum + stat.completedTasks, 0)
+      const overallCompletionRate = totalTasks > 0 ? (totalCompleted / totalTasks) * 100 : 0
+      
+      return {
+        totalProjects,
+        overallCompletionRate,
+        totalOverdueTasks
       }
     },
     

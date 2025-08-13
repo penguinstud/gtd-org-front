@@ -1,8 +1,10 @@
 import { Task, TaskStatus, Priority, Context } from '../../types'
+import { getStatusBadgeVariant, getPriorityBadgeVariant } from '../../utils/badgeVariants'
 
 /**
  * Reusable selector functions for task stores
  * These pure functions can be used by any store implementation
+ * Merged with task helper utilities to eliminate duplication
  */
 
 /**
@@ -126,12 +128,26 @@ export function selectUpcomingTasks(tasks: Task[]): Task[] {
  * Get unscheduled tasks
  */
 export function selectUnscheduledTasks(tasks: Task[]): Task[] {
-  return tasks.filter(task => 
-    !task.scheduled && 
-    !task.deadline && 
-    task.status !== 'DONE' && 
+  return tasks.filter(task =>
+    !task.scheduled &&
+    !task.deadline &&
+    task.status !== 'DONE' &&
     task.status !== 'CANCELED'
   )
+}
+
+/**
+ * Get tasks scheduled for a specific week
+ */
+export function selectScheduledForWeek(tasks: Task[], weekStart: Date): Task[] {
+  const weekEnd = new Date(weekStart)
+  weekEnd.setDate(weekEnd.getDate() + 7)
+  
+  return tasks.filter(task => {
+    if (!task.scheduled) return false
+    const scheduledDate = new Date(task.scheduled)
+    return scheduledDate >= weekStart && scheduledDate < weekEnd
+  })
 }
 
 /**
@@ -170,6 +186,112 @@ export function selectWaitingTasks(tasks: Task[]): Task[] {
  */
 export function selectSomedayTasks(tasks: Task[]): Task[] {
   return tasks.filter(task => task.status === 'SOMEDAY')
+}
+
+/**
+ * Task validation utilities
+ */
+export const TaskValidators = {
+  isOverdue: (task: Task): boolean => {
+    if (!task.deadline || task.status === 'DONE' || task.status === 'CANCELED') {
+      return false
+    }
+    return new Date(task.deadline) < new Date()
+  },
+  
+  isDueToday: (task: Task): boolean => {
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    const tomorrow = new Date(today)
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    
+    if (task.deadline) {
+      const dueDate = new Date(task.deadline)
+      return dueDate >= today && dueDate < tomorrow
+    }
+    
+    return false
+  },
+  
+  isScheduledToday: (task: Task): boolean => {
+    if (!task.scheduled) return false
+    
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    const tomorrow = new Date(today)
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    
+    const scheduledDate = new Date(task.scheduled)
+    return scheduledDate >= today && scheduledDate < tomorrow
+  },
+  
+  hasHighPriority: (task: Task): boolean => {
+    return task.priority === 'A'
+  },
+  
+  isActionable: (task: Task): boolean => {
+    return task.status === 'NEXT' || task.status === 'TODO'
+  },
+  
+  isBlocked: (task: Task): boolean => {
+    return task.status === 'WAITING'
+  }
+}
+
+/**
+ * Task formatting utilities
+ */
+export const TaskFormatters = {
+  getBadgeVariant: (task: Task, type: 'status' | 'priority') => {
+    if (type === 'status') {
+      return getStatusBadgeVariant(task.status)
+    } else {
+      return task.priority ? getPriorityBadgeVariant(task.priority) : 'secondary'
+    }
+  },
+  
+  formatDueDate: (task: Task): string => {
+    if (!task.deadline) return ''
+    
+    const dueDate = new Date(task.deadline)
+    const today = new Date()
+    const diffTime = dueDate.getTime() - today.getTime()
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    
+    if (diffDays === 0) return 'Due today'
+    if (diffDays === 1) return 'Due tomorrow'
+    if (diffDays === -1) return 'Due yesterday'
+    if (diffDays < 0) return `Overdue by ${Math.abs(diffDays)} days`
+    if (diffDays <= 7) return `Due in ${diffDays} days`
+    
+    return dueDate.toLocaleDateString()
+  },
+  
+  formatCreatedDate: (task: Task): string => {
+    const created = new Date(task.created)
+    const now = new Date()
+    const diffTime = now.getTime() - created.getTime()
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
+    
+    if (diffDays === 0) return 'Created today'
+    if (diffDays === 1) return 'Created yesterday'
+    if (diffDays <= 7) return `Created ${diffDays} days ago`
+    
+    return created.toLocaleDateString()
+  },
+  
+  formatEffort: (effort?: number): string => {
+    if (!effort) return ''
+    
+    if (effort < 1) {
+      return `${Math.round(effort * 60)}m`
+    } else if (effort < 8) {
+      return `${effort}h`
+    } else {
+      const days = Math.round(effort / 8 * 10) / 10
+      return `${days}d`
+    }
+  }
 }
 
 /**
@@ -255,8 +377,8 @@ export type TaskSortField = 'created' | 'modified' | 'scheduled' | 'deadline' | 
 export type SortDirection = 'asc' | 'desc'
 
 export function sortTasks(
-  tasks: Task[], 
-  field: TaskSortField = 'created', 
+  tasks: Task[],
+  field: TaskSortField = 'created',
   direction: SortDirection = 'desc'
 ): Task[] {
   const sorted = [...tasks].sort((a, b) => {
@@ -431,4 +553,91 @@ export function groupTasks(tasks: Task[], groupBy: TaskGroupBy): Record<string, 
   })
 
   return groups
+}
+
+/**
+ * Performance-optimized search utility
+ */
+export const TaskSearch = {
+  searchTasks: (tasks: Task[], query: string): Task[] => {
+    if (!query.trim()) return tasks
+    
+    const lowercaseQuery = query.toLowerCase()
+    const terms = lowercaseQuery.split(/\s+/)
+    
+    return tasks.filter(task => {
+      const searchableText = [
+        task.title,
+        task.description || '',
+        task.project || '',
+        task.area || '',
+        ...task.tags
+      ].join(' ').toLowerCase()
+      
+      return terms.every(term => searchableText.includes(term))
+    })
+  },
+  
+  searchByTags: (tasks: Task[], tags: string[]): Task[] => {
+    if (tags.length === 0) return tasks
+    
+    return tasks.filter(task =>
+      tags.some(tag => task.tags.indexOf(tag) !== -1)
+    )
+  }
+}
+
+/**
+ * Convenience aliases for commonly used selectors
+ * These provide shorter names while maintaining backward compatibility
+ */
+export const TaskFilters = {
+  byStatus: selectTasksByStatus,
+  byContext: selectTasksByContext,
+  byPriority: selectTasksByPriority,
+  byProject: selectTasksByProject,
+  overdue: selectOverdueTasks,
+  dueToday: selectTodaysTasks,
+  inProgress: (tasks: Task[]) => tasks.filter(task => task.status === 'NEXT' || task.status === 'WAITING'),
+  completed: selectCompletedTasks,
+  pending: (tasks: Task[]) => selectTasksByStatus(tasks, 'TODO'),
+  active: selectActiveTasks,
+  nextActions: selectNextActions,
+  waiting: selectWaitingTasks,
+  someday: selectSomedayTasks,
+  unscheduled: selectUnscheduledTasks,
+  thisWeek: selectWeekTasks,
+  upcoming: selectUpcomingTasks
+}
+
+/**
+ * Task sorting utilities with additional comparators
+ */
+export const TaskSorters = {
+  byPriority: (a: Task, b: Task): number => {
+    const priorityOrder = { A: 3, B: 2, C: 1 }
+    const aPriority = a.priority ? priorityOrder[a.priority] : 0
+    const bPriority = b.priority ? priorityOrder[b.priority] : 0
+    return bPriority - aPriority
+  },
+  
+  byDeadline: (a: Task, b: Task): number => {
+    if (!a.deadline && !b.deadline) return 0
+    if (!a.deadline) return 1
+    if (!b.deadline) return -1
+    return new Date(a.deadline).getTime() - new Date(b.deadline).getTime()
+  },
+  
+  byCreated: (a: Task, b: Task): number => {
+    return new Date(b.created).getTime() - new Date(a.created).getTime()
+  },
+  
+  byTitle: (a: Task, b: Task): number => {
+    return a.title.localeCompare(b.title)
+  },
+  
+  byStatus: (a: Task, b: Task): number => {
+    const statusOrder = { NEXT: 5, TODO: 4, WAITING: 3, SOMEDAY: 2, DONE: 1, CANCELED: 0 }
+    return statusOrder[b.status] - statusOrder[a.status]
+  }
 }

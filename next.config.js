@@ -1,17 +1,82 @@
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Performance optimizations
+  swcMinify: true,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  
   images: {
     domains: [],
   },
+  
   typescript: {
     // Dangerously allow production builds to successfully complete even if
     // your project has type errors.
     ignoreBuildErrors: false,
   },
+  
   eslint: {
     // Warning: This allows production builds to successfully complete even if
     // your project has ESLint errors.
     ignoreDuringBuilds: false,
+  },
+  
+  // Webpack configuration for bundle optimization
+  webpack: (config, { isServer, webpack }) => {
+    // Enable tree shaking
+    config.optimization = {
+      ...config.optimization,
+      usedExports: true,
+      sideEffects: false,
+    }
+    
+    // Split chunks for better caching
+    if (!isServer) {
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        cacheGroups: {
+          default: false,
+          vendors: false,
+          framework: {
+            name: 'framework',
+            chunks: 'all',
+            test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
+            priority: 40,
+            enforce: true,
+          },
+          lib: {
+            test(module) {
+              return module.size() > 160000 &&
+                /node_modules[/\\]/.test(module.identifier())
+            },
+            name(module) {
+              const crypto = require('crypto')
+              const hash = crypto.createHash('sha1')
+              hash.update(module.identifier())
+              return hash.digest('hex').substring(0, 8)
+            },
+            priority: 30,
+            minChunks: 1,
+            reuseExistingChunk: true,
+          },
+          commons: {
+            name: 'commons',
+            chunks: 'all',
+            minChunks: 2,
+            priority: 20,
+          },
+        },
+        maxAsyncRequests: 30,
+        maxInitialRequests: 30,
+      }
+    }
+    
+    return config
   },
   // Security headers configuration
   async headers() {
@@ -84,4 +149,4 @@ const nextConfig = {
   },
 }
 
-module.exports = nextConfig
+module.exports = withBundleAnalyzer(nextConfig)

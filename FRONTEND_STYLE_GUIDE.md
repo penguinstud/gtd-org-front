@@ -1,6 +1,6 @@
-# Veakaba Pro Frontend Style & Theme Guide
+# GTD Org Front Frontend Style & Theme Guide
 
-This document defines the **visual style**, **UI component rules**, and **code practices** for the frontend portion of Veakaba Pro.  
+This document defines the **visual style**, **UI component rules**, and **code practices** for the frontend portion of GTD Org Front.  
 All pages and components must follow these guidelines to ensure a **consistent premium look** and **maintainable codebase**.
 
 ---

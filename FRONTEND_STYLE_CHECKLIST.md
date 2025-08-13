@@ -3,9 +3,9 @@
 
 ## **FRONTEND_STYLE_CHECKLIST.md**
 ```markdown
-# Veakaba Pro Frontend Style Checklist
+# GTD Org Front Frontend Style Checklist
 
-Use this checklist to verify that the frontend follows the **Veakaba Pro** style guide and remains visually consistent, maintainable, and easy to extend.
+Use this checklist to verify that the frontend follows the **GTD Org Front** style guide and remains visually consistent, maintainable, and easy to extend.
 
 ---
 
@@ -98,4 +98,4 @@ Use this checklist to verify that the frontend follows the **Veakaba Pro** style
 
 ---
 
-✅ **If all boxes are checked, the frontend meets the Veakaba Pro style and quality requirements.**
+✅ **If all boxes are checked, the frontend meets the GTD Org Front style and quality requirements.**
