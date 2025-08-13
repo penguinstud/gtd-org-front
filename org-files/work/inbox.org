@@ -1,0 +1,2 @@
+* TODO New task in work inbox
+* TODO Another work task

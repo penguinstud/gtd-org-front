@@ -1,0 +1,251 @@
+#+TITLE: Personal Tasks & Projects
+#+CONTEXT: home
+
+* Area: Finance
+  :PROPERTIES:
+  :AREA: Finance
+  :BUDGET: 3000
+  :END:
+
+** TODO [#A] Review monthly budget :finance:urgent:
+   DEADLINE: <2024-01-20 Sat>
+   :PROPERTIES:
+   :EFFORT: 1h
+   :COST: 0
+   :END:
+   
+   Review expenses and adjust budget for next month.
+
+** NEXT [#B] Update investment portfolio :finance:investment:
+   SCHEDULED: <2024-01-22 Mon>
+   :PROPERTIES:
+   :EFFORT: 2h
+   :COST: 0
+   :END:
+
+** TODO File tax documents :finance:admin:
+   DEADLINE: <2024-04-15 Mon>
+   :PROPERTIES:
+   :EFFORT: 4h
+   :COST: 100
+   :END:
+
+** DONE [#A] Pay credit card bills :finance:
+   CLOSED: [2024-01-12 Fri 19:30]
+   :PROPERTIES:
+   :EFFORT: 0.5h
+   :COST: 1250
+   :COMPLETED: 2024-01-12
+   :END:
+
+* Area: Health & Fitness
+  :PROPERTIES:
+  :AREA: Health
+  :END:
+
+** TODO [#A] Schedule annual checkup :health:medical:
+   SCHEDULED: <2024-01-16 Tue>
+   :PROPERTIES:
+   :EFFORT: 0.5h
+   :COST: 200
+   :PHONE: 555-0123
+   :END:
+
+** NEXT [#B] Meal prep for the week :health:nutrition:
+   SCHEDULED: <2024-01-15 Mon>
+   :PROPERTIES:
+   :EFFORT: 2h
+   :COST: 80
+   :END:
+   
+   Plan and prepare healthy meals for the work week.
+
+** TODO Morning workout routine :health:exercise:
+   SCHEDULED: <2024-01-15 Mon +1d>
+   :PROPERTIES:
+   :EFFORT: 1h
+   :COST: 0
+   :END:
+
+** DONE [#B] Buy vitamins :health:shopping:
+   CLOSED: [2024-01-11 Thu 15:20]
+   :PROPERTIES:
+   :EFFORT: 0.5h
+   :COST: 45
+   :STORE: CVS Pharmacy
+   :COMPLETED: 2024-01-11
+   :END:
+
+* Area: Learning & Development
+  :PROPERTIES:
+  :AREA: Learning
+  :END:
+
+** NEXT [#B] Complete React course chapter 5 :learning:programming:
+   SCHEDULED: <2024-01-17 Wed>
+   :PROPERTIES:
+   :EFFORT: 3h
+   :COST: 0
+   :PROGRESS: 60
+   :SOURCE: Udemy
+   :END:
+
+** TODO [#C] Read "Atomic Habits" :learning:books:
+   :PROPERTIES:
+   :EFFORT: 8h
+   :COST: 15
+   :PROGRESS: 25
+   :END:
+
+** SOMEDAY Learn Spanish :learning:language:
+   :PROPERTIES:
+   :EFFORT: 100h
+   :COST: 200
+   :SOURCE: Duolingo
+   :END:
+
+** DONE [#A] Set up development environment :learning:programming:
+   CLOSED: [2024-01-09 Tue 21:15]
+   :PROPERTIES:
+   :EFFORT: 4h
+   :COST: 0
+   :COMPLETED: 2024-01-09
+   :END:
+
+* Area: Home & Family
+  :PROPERTIES:
+  :AREA: Home
+  :END:
+
+** TODO [#A] Fix leaky kitchen faucet :home:maintenance:
+   DEADLINE: <2024-01-18 Thu>
+   :PROPERTIES:
+   :EFFORT: 2h
+   :COST: 50
+   :END:
+
+** NEXT [#B] Grocery shopping :home:shopping:
+   SCHEDULED: <2024-01-16 Tue>
+   :PROPERTIES:
+   :EFFORT: 1h
+   :COST: 120
+   :STORE: Whole Foods
+   :END:
+   
+   - Vegetables for the week
+   - Organic chicken
+   - Pasta and sauce
+   - Fresh fruit
+
+** TODO [#C] Organize home office :home:organization:
+   :PROPERTIES:
+   :EFFORT: 3h
+   :COST: 30
+   :END:
+
+** WAITING [#B] HOA approval for fence :home:admin:
+   SCHEDULED: <2024-01-20 Sat>
+   :PROPERTIES:
+   :ASSIGNED: hoa@community.com
+   :COST: 2000
+   :END:
+
+** DONE [#A] Christmas gift shopping :home:shopping:
+   CLOSED: [2024-12-20 Wed 16:45]
+   :PROPERTIES:
+   :EFFORT: 4h
+   :COST: 800
+   :COMPLETED: 2024-12-20
+   :END:
+
+* Journal & Reflection
+  :PROPERTIES:
+  :AREA: Personal
+  :END:
+
+** TODO [#B] Weekly reflection :journal:review:
+   SCHEDULED: <2024-01-21 Sun>
+   :PROPERTIES:
+   :EFFORT: 0.5h
+   :COST: 0
+   :END:
+   
+   Reflect on the week's accomplishments and plan for next week.
+
+** TODO Daily gratitude practice :journal:mindfulness:
+   SCHEDULED: <2024-01-15 Mon +1d>
+   :PROPERTIES:
+   :EFFORT: 0.25h
+   :COST: 0
+   :END:
+
+** DONE [#B] Set yearly goals :journal:planning:
+   CLOSED: [2024-01-01 Mon 20:30]
+   :PROPERTIES:
+   :EFFORT: 2h
+   :COST: 0
+   :COMPLETED: 2024-01-01
+   :END:
+
+* Social & Relationships
+  :PROPERTIES:
+  :AREA: Social
+  :END:
+
+** TODO [#A] Call mom for birthday :social:family:
+   DEADLINE: <2024-01-25 Thu>
+   :PROPERTIES:
+   :EFFORT: 0.5h
+   :COST: 0
+   :PHONE: 555-0456
+   :END:
+
+** NEXT [#B] Plan date night :social:relationship:
+   SCHEDULED: <2024-01-19 Fri>
+   :PROPERTIES:
+   :EFFORT: 1h
+   :COST: 150
+   :END:
+
+** TODO Coffee with John :social:friends:
+   SCHEDULED: <2024-01-20 Sat 10:00>
+   :PROPERTIES:
+   :EFFORT: 1.5h
+   :COST: 20
+   :LOCATION: Blue Bottle Coffee
+   :END:
+
+** DONE [#B] Send thank you cards :social:gratitude:
+   CLOSED: [2024-01-08 Mon 14:20]
+   :PROPERTIES:
+   :EFFORT: 1h
+   :COST: 25
+   :COMPLETED: 2024-01-08
+   :END:
+
+* Quick Capture / Inbox
+
+** TODO Research vacation destinations :travel:research:
+   :PROPERTIES:
+   :EFFORT: 2h
+   :COST: 0
+   :END:
+
+** TODO Buy birthday gift for Sarah :shopping:gifts:
+   DEADLINE: <2024-02-05 Mon>
+   :PROPERTIES:
+   :EFFORT: 1h
+   :COST: 75
+   :END:
+
+** TODO Update insurance policies :admin:insurance:
+   :PROPERTIES:
+   :EFFORT: 2h
+   :COST: 0
+   :END:
+
+** TODO Find new dentist :health:medical:
+   :PROPERTIES:
+   :EFFORT: 1h
+   :COST: 0
+   :END:

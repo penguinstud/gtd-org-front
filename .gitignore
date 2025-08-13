@@ -96,3 +96,5 @@ temp/
 *.njsproj
 *.sln
 *.sw?
+# Docker
+/node_modules

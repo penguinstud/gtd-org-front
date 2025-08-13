@@ -1,0 +1,40 @@
+#+TITLE: Simple Test File
+#+CONTEXT: work
+
+* TODO [#A] Simple task with priority :urgent:
+  SCHEDULED: <2024-01-15 Mon>
+  DEADLINE: <2024-01-20 Sat>
+  :PROPERTIES:
+  :EFFORT: 2h
+  :PROJECT: Test Project
+  :END:
+  
+  This is a simple task description.
+
+* NEXT [#B] Task in progress :dev:
+  :PROPERTIES:
+  :EFFORT: 4h
+  :END:
+
+* WAITING Client response :waiting:
+  :PROPERTIES:
+  :ASSIGNED: client@test.com
+  :END:
+
+* DONE [#A] Completed task :completed:
+  CLOSED: [2024-01-10 Wed 14:30]
+  :PROPERTIES:
+  :EFFORT: 1h
+  :COMPLETED: 2024-01-10
+  :END:
+
+* SOMEDAY Maybe later :someday:
+  :PROPERTIES:
+  :EFFORT: 8h
+  :END:
+
+* CANCELED Not needed :canceled:
+  CLOSED: [2024-01-11 Thu 10:00]
+  :PROPERTIES:
+  :REASON: Requirements changed
+  :END:

@@ -353,3 +353,24 @@ export type AppEvent =
   | { type: 'SYNC_STARTED'; payload: {} }
   | { type: 'SYNC_COMPLETED'; payload: {} }
   | { type: 'SYNC_ERROR'; payload: { error: string } }
+
+// Parser-specific types
+export interface ParseError {
+  type: 'warning' | 'error'
+  message: string
+  line: number
+  column: number
+  context: string
+}
+
+export interface ParseResult {
+  tasks: Task[]
+  projects: Project[]
+  errors: ParseError[]
+  metadata: {
+    filePath: string
+    lastModified: Date
+    lineCount: number
+    context: Context
+  }
+}

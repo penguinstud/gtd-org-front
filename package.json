@@ -4,7 +4,7 @@
   "description": "GTD (Getting Things Done) front-end application with Monday.com-style interface",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node server.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

@@ -1,0 +1,132 @@
+#+TITLE: Work Projects
+#+CONTEXT: work
+
+* Project: Website Redesign
+  :PROPERTIES:
+  :AREA: Marketing
+  :EFFORT: 40h
+  :PROJECT: Website Redesign
+  :END:
+
+** TODO [#A] Design wireframes
+   SCHEDULED: <2024-01-15 Mon>
+   DEADLINE: <2024-01-20 Sat>
+   :PROPERTIES:
+   :EFFORT: 8h
+   :ASSIGNED: john.doe@company.com
+   :END:
+   
+   Create detailed wireframes for all main pages including homepage, product pages, and checkout flow.
+
+** NEXT [#B] Implement responsive layout :dev:frontend:
+   SCHEDULED: <2024-01-22 Mon>
+   :PROPERTIES:
+   :EFFORT: 12h
+   :END:
+
+** WAITING [#C] Client feedback on mockups :waiting:
+   SCHEDULED: <2024-01-25 Thu>
+   :PROPERTIES:
+   :ASSIGNED: client@company.com
+   :END:
+
+** TODO Deploy to staging :dev:deployment:
+   :PROPERTIES:
+   :EFFORT: 2h
+   :END:
+
+* Project: API Integration
+  :PROPERTIES:
+  :AREA: Engineering
+  :PROJECT: API Integration
+  :END:
+
+** NEXT [#A] Set up authentication endpoints :dev:backend:
+   SCHEDULED: <2024-01-16 Tue>
+   DEADLINE: <2024-01-18 Thu>
+   :PROPERTIES:
+   :EFFORT: 6h
+   :END:
+
+** TODO [#B] Implement rate limiting :security:
+   :PROPERTIES:
+   :EFFORT: 4h
+   :END:
+
+** SOMEDAY Consider GraphQL migration :research:
+   :PROPERTIES:
+   :EFFORT: 20h
+   :END:
+
+* Inbox Items
+
+** TODO [#A] Review quarterly reports :admin:urgent:
+   DEADLINE: <2024-01-17 Wed>
+   :PROPERTIES:
+   :EFFORT: 2h
+   :END:
+
+** TODO Schedule team retrospective :meeting:
+   :PROPERTIES:
+   :EFFORT: 1h
+   :END:
+
+** TODO Update documentation :docs:
+   :PROPERTIES:
+   :EFFORT: 3h
+   :END:
+
+* Recurring Tasks
+
+** TODO Weekly status report :admin:
+   SCHEDULED: <2024-01-15 Mon +1w>
+   :PROPERTIES:
+   :EFFORT: 0.5h
+   :END:
+
+** TODO Team standup :meeting:
+   SCHEDULED: <2024-01-15 Mon +1d>
+   :PROPERTIES:
+   :EFFORT: 0.25h
+   :END:
+
+* Completed Tasks
+
+** DONE [#A] Budget planning Q1 :finance:
+   CLOSED: [2024-01-10 Wed 14:30]
+   :PROPERTIES:
+   :EFFORT: 4h
+   :COMPLETED: 2024-01-10
+   :END:
+
+** DONE Set up CI/CD pipeline :dev:deployment:
+   CLOSED: [2024-01-12 Fri 16:45]
+   :PROPERTIES:
+   :EFFORT: 8h
+   :COMPLETED: 2024-01-12
+   :END:
+
+** CANCELED Old website migration :legacy:
+   CLOSED: [2024-01-11 Thu 10:00]
+   :PROPERTIES:
+   :REASON: Project deprioritized
+   :END:
+
+* Meetings
+
+** TODO Client presentation :meeting:important:
+   SCHEDULED: <2024-01-19 Fri 14:00-15:00>
+   :PROPERTIES:
+   :LOCATION: Conference Room A
+   :ATTENDEES: john.doe@company.com, jane.smith@client.com
+   :EFFORT: 1h
+   :END:
+   
+   Present Q1 roadmap and get client approval for next phase.
+
+** TODO All-hands meeting :meeting:
+   SCHEDULED: <2024-01-18 Thu 10:00-11:00>
+   :PROPERTIES:
+   :LOCATION: Main auditorium
+   :EFFORT: 1h
+   :END:

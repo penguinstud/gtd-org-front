@@ -1,8 +1,5 @@
 import React from 'react'
-import { PageLayout } from '../components/layout/PageLayout'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/Card'
-import { Button } from '../components/ui/Button'
-import { Badge } from '../components/ui/Badge'
+import { PageLayout, Card, CardContent, CardDescription, CardHeader, CardTitle, Button, Badge } from '../components'
 
 export default function HomePage() {
   return (
