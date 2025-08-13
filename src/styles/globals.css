@@ -2,6 +2,9 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+/* Import design tokens for centralized design system */
+@import './design-tokens.css';
+
 @layer base {
   :root {
     /* Premium Design System CSS Variables */

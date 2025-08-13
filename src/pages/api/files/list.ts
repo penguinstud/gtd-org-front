@@ -49,6 +49,12 @@ async function handler(
           error: 'Invalid context parameter'
         })
       }
+    } else {
+      // Context is now REQUIRED for proper isolation
+      return res.status(400).json({
+        success: false,
+        error: 'Context parameter is required. Must specify "work" or "home"'
+      })
     }
     
     if (customPath) {
@@ -81,15 +87,9 @@ async function handler(
       }
       const detectedContext = determineContextFromPath(pathValidation.sanitizedPath!)
       directories.push({ path: pathValidation.sanitizedPath!, context: detectedContext })
-    } else if (contextParam && (contextParam === 'work' || contextParam === 'home')) {
-      // Specific context requested
-      directories.push({ path: defaultPaths[contextParam], context: contextParam })
     } else {
-      // List both contexts
-      directories.push(
-        { path: defaultPaths.work, context: 'work' },
-        { path: defaultPaths.home, context: 'home' }
-      )
+      // Only specific context requested (context is now required)
+      directories.push({ path: defaultPaths[contextParam], context: contextParam })
     }
 
     const files: OrgFile[] = []
@@ -97,17 +97,26 @@ async function handler(
     for (const dir of directories) {
       try {
         const dirFiles = await listOrgFilesInDirectory(dir.path, dir.context)
-        files.push(...dirFiles)
+        // Enforce context isolation at API level
+        const contextFilteredFiles = dirFiles.filter(file => file.context === contextParam)
+        files.push(...contextFilteredFiles)
       } catch (error) {
         console.warn(`Failed to list files in ${dir.path}:`, error)
         // Continue with other directories instead of failing completely
       }
     }
 
+    // Additional validation: ensure all returned files match the requested context
+    const validatedFiles = files.filter(file => file.context === contextParam)
+    
+    if (validatedFiles.length !== files.length) {
+      console.warn(`Context isolation warning: Found ${files.length - validatedFiles.length} files with incorrect context`)
+    }
+
     res.status(200).json({
       success: true,
       data: {
-        files: files.sort((a, b) => b.lastModified.getTime() - a.lastModified.getTime()),
+        files: validatedFiles.sort((a, b) => b.lastModified.getTime() - a.lastModified.getTime()),
         context: contextParam
       }
     })
@@ -170,8 +179,6 @@ async function listOrgFilesInDirectory(dirPath: string, context: Context): Promi
         console.warn(`Failed to get stats for ${fullPath}:`, error)
       }
       
-      // Export the secured handler with rate limiting
-      export default withSecurity(handler, fileListRateLimit)
     } else if (entry.isDirectory() && !entry.name.startsWith('.')) {
       // Recursively list subdirectories with security validation
       try {
@@ -196,5 +203,9 @@ function determineContextFromPath(filePath: string): Context {
   if (filePath.includes('/home/') || filePath.includes('\\home\\')) {
     return 'home'
   }
-  return 'work' // Default fallback
+  
+  // Default fallback
+  return 'work'
 }
+// Export the secured handler with rate limiting
+export default withSecurity(handler, fileListRateLimit)

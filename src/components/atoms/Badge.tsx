@@ -1,21 +1,29 @@
 import React from 'react'
+import {
+  getStatusBadgeVariant,
+  getPriorityBadgeVariant,
+  getContextBadgeVariant,
+  BADGE_CONFIGS,
+  type BadgeVariant
+} from '../../lib/utils/badgeVariants'
+import { TaskStatus, Priority } from '../../lib/types'
 
 export interface BadgeProps {
   children: React.ReactNode
-  variant?: 'default' | 'success' | 'progress' | 'blocked' | 'planning' | 'secondary'
+  variant?: BadgeVariant
   size?: 'sm' | 'md' | 'lg'
   className?: string
 }
 
-export function Badge({ 
-  children, 
-  variant = 'default', 
+export function Badge({
+  children,
+  variant = 'default',
   size = 'md',
-  className = '' 
+  className = ''
 }: BadgeProps) {
   const baseClasses = 'inline-flex items-center font-medium rounded-full transition-premium'
   
-  const variantClasses = {
+  const variantClasses: Record<BadgeVariant, string> = {
     default: 'bg-gray-100 text-gray-800',
     success: 'bg-status-success text-white',
     progress: 'bg-status-progress text-gray-800',
@@ -37,49 +45,42 @@ export function Badge({
   )
 }
 
-// Status-specific badge variants
-export function StatusBadge({ status }: { status: string }) {
-  const statusVariants = {
-    TODO: 'default',
-    NEXT: 'progress',
-    WAITING: 'progress',
-    DONE: 'success',
-    SOMEDAY: 'secondary',
-    CANCELED: 'blocked'
-  }
+// Status-specific badge using badgeVariants utility
+export function StatusBadge({ status }: { status: TaskStatus }) {
+  const variant = getStatusBadgeVariant(status)
   
   return (
-    <Badge variant={statusVariants[status as keyof typeof statusVariants] as any}>
+    <Badge variant={variant}>
       {status}
     </Badge>
   )
 }
 
-// Priority badge
-export function PriorityBadge({ priority }: { priority: string | null }) {
+// Priority badge using badgeVariants utility
+export function PriorityBadge({ priority }: { priority: Priority }) {
   if (!priority) return null
   
-  const priorityColors = {
-    A: 'blocked',
-    B: 'progress', 
-    C: 'planning'
-  }
+  const variant = getPriorityBadgeVariant(priority)
+  const config = BADGE_CONFIGS.priority[priority]
   
   return (
-    <Badge variant={priorityColors[priority as keyof typeof priorityColors] as any} size="sm">
-      Priority {priority}
+    <Badge variant={variant} size="sm">
+      {config.label}
     </Badge>
   )
 }
 
-// Context badge
-export function ContextBadge({ context }: { context: string }) {
+// Context badge using badgeVariants utility
+export function ContextBadge({ context }: { context: 'work' | 'home' }) {
+  const variant = getContextBadgeVariant(context)
+  const config = BADGE_CONFIGS.context[context]
+  
   return (
-    <Badge 
-      variant={context === 'work' ? 'planning' : 'secondary'} 
+    <Badge
+      variant={variant}
       className={context === 'work' ? 'bg-context-work' : 'bg-context-home'}
     >
-      {context.charAt(0).toUpperCase() + context.slice(1)}
+      {config.icon} {config.label}
     </Badge>
   )
 }
