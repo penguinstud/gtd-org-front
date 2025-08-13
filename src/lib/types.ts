@@ -38,6 +38,7 @@ export interface Task {
   context: Context
   scheduled?: Date
   deadline?: Date
+  duration?: number // minutes - for time block scheduling
   effort?: number // hours
   cost?: number // for home context
   area?: string // for home context (Finance, Health, Learning, etc.)

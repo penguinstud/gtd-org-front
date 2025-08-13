@@ -22,6 +22,7 @@ export interface TaskStats {
   overdue: number
   inProgress: number
   byPriority: Record<'A' | 'B' | 'C', number>
+  byContext: Record<'work' | 'home', number>
   completionRate: number
 }
 
@@ -46,6 +47,7 @@ export interface BaseTaskStoreMethods {
   getOverdueTasks: () => Task[]
   getTasksByPriority: (priority: Priority) => Task[]
   getTodaysTasks: () => Task[]
+  getScheduledTasksForDate: (date: Date) => Task[]
   getTaskStats: () => TaskStats
   
   // Sync operations
@@ -158,12 +160,32 @@ export function createBaseStoreImplementation<T extends BaseTaskStore>(
       })
     },
     
+    getScheduledTasksForDate: (date: Date): Task[] => {
+      const startOfDay = new Date(date)
+      startOfDay.setHours(0, 0, 0, 0)
+      const endOfDay = new Date(date)
+      endOfDay.setHours(23, 59, 59, 999)
+      
+      return get().tasks.filter((task: Task) => {
+        if (task.scheduled) {
+          const scheduledDate = new Date(task.scheduled)
+          return scheduledDate >= startOfDay && scheduledDate <= endOfDay
+        }
+        // Also include tasks due on this date if they don't have a scheduled time
+        if (!task.scheduled && task.deadline) {
+          const dueDate = new Date(task.deadline)
+          return dueDate >= startOfDay && dueDate <= endOfDay
+        }
+        return false
+      })
+    },
+    
     getTaskStats: (): TaskStats => {
       const tasks = get().tasks
       const total = tasks.length
       const completed = tasks.filter((t: Task) => t.status === 'DONE').length
       const pending = tasks.filter((t: Task) => t.status === 'TODO').length
-      const inProgress = tasks.filter((t: Task) => 
+      const inProgress = tasks.filter((t: Task) =>
         t.status === 'NEXT' || t.status === 'WAITING'
       ).length
       
@@ -176,6 +198,11 @@ export function createBaseStoreImplementation<T extends BaseTaskStore>(
         C: tasks.filter((t: Task) => t.priority === 'C').length
       }
       
+      const byContext: Record<'work' | 'home', number> = {
+        work: tasks.filter((t: Task) => t.context === 'work').length,
+        home: tasks.filter((t: Task) => t.context === 'home').length
+      }
+      
       const completionRate = total > 0 ? (completed / total) * 100 : 0
       
       return {
@@ -185,6 +212,7 @@ export function createBaseStoreImplementation<T extends BaseTaskStore>(
         overdue,
         inProgress,
         byPriority,
+        byContext,
         completionRate
       }
     },

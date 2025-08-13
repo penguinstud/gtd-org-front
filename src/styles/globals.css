@@ -174,6 +174,104 @@
   .premium-scrollbar::-webkit-scrollbar-thumb:hover {
     @apply bg-gray-400;
   }
+  
+  /* Task duration visualization styles */
+  .task-duration-block {
+    @apply relative overflow-visible;
+  }
+  
+  .task-duration-block::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    height: 2px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      hsl(var(--color-primary) / 0.3) 25%,
+      hsl(var(--color-primary) / 0.3) 75%,
+      transparent 100%
+    );
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+  }
+  
+  .task-duration-block:hover::after {
+    opacity: 1;
+  }
+  
+  /* Resize cursor styles */
+  .resize-handle {
+    cursor: ns-resize;
+    position: relative;
+  }
+  
+  .resize-handle::before {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 4px;
+    border-radius: 2px;
+    background-color: hsl(var(--color-gray-400) / 0.5);
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .resize-handle:hover::before {
+    background-color: hsl(var(--color-primary));
+    width: 40px;
+  }
+  
+  /* Meeting block styles */
+  .meeting-block {
+    background: linear-gradient(135deg,
+      hsl(var(--color-primary) / 0.1) 0%,
+      hsl(var(--color-primary) / 0.05) 100%
+    );
+    border-left: 3px solid hsl(var(--color-primary));
+    position: relative;
+  }
+  
+  .meeting-block::before {
+    content: '📅';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 0.875rem;
+    opacity: 0.5;
+  }
+  
+  /* Time slot hover effects */
+  .time-slot-active {
+    background: linear-gradient(90deg,
+      transparent 0%,
+      hsl(var(--color-primary) / 0.05) 50%,
+      transparent 100%
+    );
+  }
+  
+  /* Duration overlay styles */
+  .duration-overlay {
+    @apply absolute bg-gray-900/90 text-white px-3 py-1.5 rounded-md text-xs font-medium;
+    @apply shadow-lg pointer-events-none z-50;
+    white-space: nowrap;
+  }
+  
+  .duration-overlay::before {
+    content: '';
+    position: absolute;
+    left: -4px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 4px 4px 4px 0;
+    border-color: transparent rgb(17 24 39 / 0.9) transparent transparent;
+  }
 }
 
 /* Import Inter font if not available */

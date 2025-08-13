@@ -1,5 +1,7 @@
 import chokidar from 'chokidar'
-import { useTaskStore } from '../stores/taskStore'
+import { useAppStore } from '../stores/appStore'
+import { useWorkStore } from '../stores/workStore'
+import { useHomeStore } from '../stores/homeStore'
 import { logger } from './logger'
 
 export interface FileWatcherConfig {
@@ -77,8 +79,14 @@ class FileWatcher {
   private async syncData() {
     try {
       logger.info('🔄 File change detected, syncing data...')
-      const taskStore = useTaskStore.getState()
-      await taskStore.syncData()
+      // Get the current context and sync the appropriate store
+      const appStore = useAppStore.getState()
+      const currentContext = appStore.currentContext
+      if (currentContext === 'work') {
+        await useWorkStore.getState().syncData()
+      } else {
+        await useHomeStore.getState().syncData()
+      }
       logger.info('✅ Data sync completed')
     } catch (error) {
       logger.error('❌ Failed to sync data after file change:', error)

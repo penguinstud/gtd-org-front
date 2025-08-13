@@ -3,6 +3,10 @@
  * This file centralizes all design tokens to eliminate duplication
  */
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @layer tokens {
   :root {
     /* ===========================================

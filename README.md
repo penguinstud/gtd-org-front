@@ -32,6 +32,9 @@ npm start
 - Documented atomic design architecture decision
 - Eliminated 450+ lines of duplicate code
 - Reduced bundle size by 35% (23.4MB → 15.2MB)
+- **NEW: Implemented drag-and-drop functionality in Daily View**
+- **NEW: Fixed CSS loading issues with _app.tsx**
+- **NEW: Added @dnd-kit for modern drag-and-drop support**
 
 ## 📁 Project Structure
 
@@ -74,6 +77,7 @@ We've adopted **Atomic Design** methodology over a flat structure for:
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS + Design Tokens
 - **State:** Zustand (lightweight, type-safe)
+- **Drag & Drop:** @dnd-kit (modern, accessible)
 - **File Integration:** Local org-mode files
 - **Build:** Docker-ready containerization
 
@@ -87,12 +91,16 @@ We've adopted **Atomic Design** methodology over a flat structure for:
 - Atomic component library
 - Design token system
 - Responsive layouts
+- **Daily View with drag-and-drop** (9AM-9PM time slots)
+- **Task scheduling via drag-and-drop**
+- **Time slot drop zones**
+- **Visual drag feedback with overlay**
 
 ### In Development 🚧
-- Daily View (9AM-9PM time slots)
+- Task duration visualization
 - Inbox processing with per-task actions
 - Projects view with task grouping
-- Drag-and-drop functionality
+- Task resizing for duration changes
 - Inline editing
 - Timeline/Gantt view
 
@@ -154,6 +162,6 @@ Private project - All rights reserved
 
 ---
 
-**Last Updated:** August 13, 2025  
-**Version:** 0.1.0  
-**Status:** Active Development
+**Last Updated:** August 13, 2025 (8:00 AM EST)
+**Version:** 0.1.2
+**Status:** Active Development - Drag & Drop Complete
