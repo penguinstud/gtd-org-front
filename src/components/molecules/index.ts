@@ -1,1 +1,17 @@
-export { Card, CardHeader, CardTitle, CardContent, CardDescription } from './Card';
+/**
+ * Molecular components for GTD Org Front
+ * These components combine multiple atoms to create reusable interface elements
+ */
+
+export {
+  Card,
+  CardHeader,
+  CardContent,
+  CardTitle,
+  CardDescription
+} from './Card'
+export { KpiCard, type KpiCardProps } from './KpiCard'
+
+// Re-export from atoms for convenience
+export { Badge, type BadgeProps } from '../atoms/Badge'
+export { Button, type ButtonProps } from '../atoms/Button'
