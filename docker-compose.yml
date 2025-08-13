@@ -7,9 +7,43 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - .:/app
+      # Read-only application code mount (security)
+      - .:/app:ro
       - /app/node_modules
-      - ./org-files:/app/org-files
+      # Writable org-files directory with specific permissions
+      - ./org-files:/app/org-files:rw
+      # Temporary directory for secure operations
+      - /tmp/gtd-org-front:/tmp:rw
     environment:
       - NODE_ENV=development
       - WATCHPACK_POLLING=true
+      - ORG_WORK_DIR=/app/org-files/work
+      - ORG_HOME_DIR=/app/org-files/home
+    # Security context
+    user: "1001:1001"  # nextjs user from Dockerfile
+    read_only: false  # Need write access for temp files
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - SETGID
+      - SETUID
+    security_opt:
+      - no-new-privileges:true
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+    # Health check
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s

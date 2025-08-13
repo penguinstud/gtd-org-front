@@ -3,6 +3,8 @@ import { promises as fs } from 'fs'
 import path from 'path'
 import { ApiResponse, ParseResult } from '../../../lib/types'
 import { parseOrgContent } from '../../../lib/utils/orgParser'
+import { validateFilePath, safeReadFile } from '../../../lib/security/pathValidation'
+import { withSecurity, fileReadRateLimit, sanitizeString, validateRequestBody } from '../../../lib/security/rateLimiting'
 
 export interface ReadFileResponse {
   filePath: string
@@ -15,7 +17,7 @@ export interface ReadFileResponse {
  * POST /api/files/read
  * Body: { filePath: string }
  */
-export default async function handler(
+async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ApiResponse<ReadFileResponse>>
 ) {
@@ -29,39 +31,53 @@ export default async function handler(
   try {
     const { filePath } = req.body
 
-    if (!filePath) {
-      return res.status(400).json({
-        success: false,
-        error: 'File path is required'
-      })
-    }
-
-    // Security check: ensure the file path is safe
-    if (!isValidOrgFilePath(filePath)) {
-      return res.status(400).json({
-        success: false,
-        error: 'Invalid file path'
-      })
-    }
-
-    // Check if file exists
+    // Comprehensive input validation
     try {
-      await fs.access(filePath)
-    } catch {
+      validateRequestBody(req.body, ['filePath'])
+      const sanitizedFilePath = sanitizeString(filePath, 500)
+      
+      if (!sanitizedFilePath) {
+        return res.status(400).json({
+          success: false,
+          error: 'File path is required and must be a valid string'
+        })
+      }
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        error: `Input validation failed: ${error instanceof Error ? error.message : 'Invalid input'}`
+      })
+    }
+
+    // Security validation: comprehensive path validation
+    const pathValidation = validateFilePath(filePath)
+    if (!pathValidation.isValid) {
+      return res.status(400).json({
+        success: false,
+        error: `Security violation: ${pathValidation.error}`
+      })
+    }
+
+    const sanitizedPath = pathValidation.sanitizedPath!
+
+    // Securely read and parse the file
+    let content: string
+    try {
+      content = await safeReadFile(filePath)
+    } catch (error) {
       return res.status(404).json({
         success: false,
-        error: 'File not found'
+        error: 'File not found or inaccessible',
+        message: error instanceof Error ? error.message : 'Unknown error'
       })
     }
 
-    // Read and parse the file
-    const content = await fs.readFile(filePath, 'utf-8')
-    const parsed = parseOrgContent(content, filePath)
+    const parsed = parseOrgContent(content, sanitizedPath)
 
     res.status(200).json({
       success: true,
       data: {
-        filePath,
+        filePath: sanitizedPath,
         content,
         parsed
       }
@@ -77,32 +93,5 @@ export default async function handler(
   }
 }
 
-/**
- * Validate that the file path is safe and points to an .org file
- */
-function isValidOrgFilePath(filePath: string): boolean {
-  // Must be an .org file
-  if (!filePath.endsWith('.org')) {
-    return false
-  }
-
-  // Resolve to absolute path and check for path traversal
-  const resolvedPath = path.resolve(filePath)
-  
-  // Should not contain path traversal patterns
-  if (filePath.includes('..') || filePath.includes('~')) {
-    return false
-  }
-
-  // Must be within allowed directories (basic security)
-  const allowedDirs = [
-    process.env.ORG_WORK_DIR || path.join(process.cwd(), 'org/work'),
-    process.env.ORG_HOME_DIR || path.join(process.cwd(), 'org/home'),
-    path.join(process.cwd(), 'tests/fixtures') // For testing
-  ]
-
-  return allowedDirs.some(dir => {
-    const resolvedDir = path.resolve(dir)
-    return resolvedPath.startsWith(resolvedDir)
-  })
-}
+// Export the secured handler with rate limiting
+export default withSecurity(handler, fileReadRateLimit)
