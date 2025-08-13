@@ -35,11 +35,11 @@
     --surface-bg: #FFFFFF;
     --overlay-bg: rgba(0, 0, 0, 0.4);
 
-    /* Status Colors */
-    --status-success: #00CA72;
-    --status-progress: #F0D000;
-    --status-blocked: #E2445C;
-    --status-planning: #9D4EDD;
+    /* Status Colors - Aligned with Style Guide */
+    --status-success: #00C853;  /* Green - per style guide */
+    --status-progress: #FFEB3B; /* Yellow - per style guide */
+    --status-blocked: #E53935;  /* Red - per style guide */
+    --status-planning: #8E24AA; /* Purple - per style guide */
 
     /* Context Colors */
     --context-work: #0073EA;

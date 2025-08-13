@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { PageLayout } from '../templates/PageLayout'
 import { KpiCard } from '../molecules/KpiCard'
-import { Card } from '../atoms/Card'
+import { Card } from '../molecules/Card'  // Card is in molecules, not atoms
 import { Badge } from '../atoms/Badge'
 import { Button } from '../atoms/Button'
 import { useTaskStore, useAppStore } from '../../lib/stores'
@@ -35,7 +35,7 @@ export function Dashboard({ className }: DashboardProps) {
   
   if (loading) {
     return (
-      <PageLayout>
+      <PageLayout title="Dashboard">
         <div className="flex items-center justify-center h-64">
           <div className="text-gray-500">Loading dashboard...</div>
         </div>
@@ -45,7 +45,7 @@ export function Dashboard({ className }: DashboardProps) {
   
   if (error) {
     return (
-      <PageLayout>
+      <PageLayout title="Dashboard">
         <div className="flex items-center justify-center h-64">
           <div className="text-center">
             <div className="text-red-600 mb-4">Error loading data: {error}</div>
@@ -57,7 +57,8 @@ export function Dashboard({ className }: DashboardProps) {
   }
   
   return (
-    <PageLayout className={cn('space-y-6', className)}>
+    <PageLayout title="Dashboard">
+      <div className={cn('space-y-6', className)}>
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -290,6 +291,7 @@ export function Dashboard({ className }: DashboardProps) {
           </Button>
         </div>
       </Card>
+      </div>
     </PageLayout>
   )
 }

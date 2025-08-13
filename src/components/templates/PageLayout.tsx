@@ -1,6 +1,6 @@
 import React from 'react'
-import { PremiumTopNav } from '../ui/PremiumTopNav'
-import { Button } from '../ui/Button'
+import { PremiumTopNav } from '../organisms/PremiumTopNav'
+import { Button } from '../atoms/Button'
 
 interface PageLayoutProps {
   children: React.ReactNode

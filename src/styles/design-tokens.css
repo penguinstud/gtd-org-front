@@ -14,11 +14,11 @@
     --color-primary-dark: 215 100% 38%;   /* Darker variant */
     --color-primary-light: 215 100% 56%;  /* Lighter variant */
     
-    /* Status Colors (Monday.com Style) */
-    --color-status-success: 145 80% 42%;     /* #00CA72 - Green */
-    --color-status-progress: 50 100% 47%;    /* #F0D000 - Yellow */
-    --color-status-blocked: 352 71% 62%;     /* #E2445C - Red */
-    --color-status-planning: 271 91% 60%;    /* #9D4EDD - Purple */
+    /* Status Colors (Aligned with Style Guide) */
+    --color-status-success: 145 100% 39%;    /* #00C853 - Green */
+    --color-status-progress: 54 100% 62%;    /* #FFEB3B - Yellow */
+    --color-status-blocked: 4 90% 58%;       /* #E53935 - Red */
+    --color-status-planning: 277 100% 41%;   /* #8E24AA - Purple */
     --color-status-next: 38 92% 50%;         /* #FF9F1A - Orange */
     
     /* Context Colors */

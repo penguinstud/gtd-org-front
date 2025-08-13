@@ -57,9 +57,9 @@ export const useTaskStore = create<TaskStore>()(
       addTask: (taskData) => {
         const newTask: Task = {
           id: `task_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          ...taskData
+          ...taskData,
+          created: taskData.created || new Date(),
+          modified: taskData.modified || new Date()
         }
         set((state) => ({ tasks: [...state.tasks, newTask] }))
       },
@@ -141,7 +141,7 @@ export const useTaskStore = create<TaskStore>()(
       },
 
       getTasksByProject: (projectId) => {
-        return get().tasks.filter((task) => task.projectId === projectId)
+        return get().tasks.filter((task) => task.project === projectId)
       },
 
       getOverdueTasks: () => {

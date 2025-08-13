@@ -57,20 +57,30 @@ All pages and components must follow these guidelines to ensure a **consistent p
 
 ## 2. Component Architecture
 
-### **Folder Structure**
+### **Folder Structure (Atomic Design Pattern)**
+
+**Note:** We've adopted the Atomic Design methodology for better scalability and maintainability. This approach provides clearer component hierarchy and better reusability than the original flat structure.
+
 ```plaintext
 src/
   components/
-    ui/        # Shared UI elements
-      Button.tsx
-      Card.tsx
+    atoms/        # Basic building blocks (Button, Badge, Input)
       Badge.tsx
+      Button.tsx
+      index.ts
+    molecules/    # Simple component groups (Card, KpiCard)
+      Card.tsx
+      KpiCard.tsx
+      index.ts
+    organisms/    # Complex components (Navigation, Dashboard)
+      Dashboard.tsx
+      EnhancedNavigation.tsx
       PremiumTopNav.tsx
-      ChartCard.tsx
-      Table.tsx
-    layout/    # Page wrappers
+      index.ts
+    templates/    # Page layouts (PageLayout, SidebarLayout)
       PageLayout.tsx
-  pages/
+      index.ts
+  pages/        # Next.js route pages
     dashboard/
     daily/
     projects/
