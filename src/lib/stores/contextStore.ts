@@ -1,4 +1,4 @@
-import { create, StateCreator } from 'zustand'
+import { create } from 'zustand'
 import { devtools, subscribeWithSelector } from 'zustand/middleware'
 import { Task, Project, Context, TaskStatus, Priority } from '../types'
 
@@ -150,7 +150,8 @@ export function createContextStore(context: Context) {
                   allProjects.push(...projects.filter((project: Project) => project.context === context))
                 }
               } catch (error) {
-                console.warn(`Failed to parse ${context} file ${file.path}:`, error)
+                // Silently skip files that fail to parse
+                // TODO: Consider adding proper error logging mechanism
               }
             }
 

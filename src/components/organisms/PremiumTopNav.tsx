@@ -1,6 +1,5 @@
 import React from 'react'
 import { Button } from '../atoms/Button'
-import { Badge } from '../atoms/Badge'
 
 interface PremiumTopNavProps {
   currentContext?: 'work' | 'home'

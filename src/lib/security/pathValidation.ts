@@ -116,8 +116,6 @@ export function validateDirectoryPath(
   dirPath: string,
   config: Partial<SecurityConfig> = {}
 ): { isValid: boolean; error?: string; sanitizedPath?: string } {
-  const securityConfig = { ...DEFAULT_CONFIG, ...config }
-
   if (!dirPath || typeof dirPath !== 'string') {
     return { isValid: false, error: 'Directory path must be a non-empty string' }
   }

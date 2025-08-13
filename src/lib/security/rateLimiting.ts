@@ -3,6 +3,9 @@
  * Implements in-memory rate limiting with configurable limits
  */
 
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { logger } from '../utils/logger'
+
 interface RateLimitConfig {
   windowMs: number      // Time window in milliseconds
   maxRequests: number   // Maximum requests per window
@@ -43,10 +46,12 @@ export const RATE_LIMIT_CONFIGS = {
 /**
  * Get client identifier for rate limiting
  */
-function getClientIdentifier(req: any): string {
+function getClientIdentifier(req: NextApiRequest): string {
   // In production, consider using more sophisticated client identification
   const forwarded = req.headers['x-forwarded-for']
-  const ip = forwarded ? forwarded.split(',')[0] : req.connection?.remoteAddress || req.socket?.remoteAddress || 'unknown'
+  const ip = forwarded
+    ? (Array.isArray(forwarded) ? forwarded[0] : forwarded.split(',')[0])
+    : req.connection?.remoteAddress || req.socket?.remoteAddress || 'unknown'
   return ip.toString()
 }
 
@@ -66,7 +71,7 @@ function cleanupExpiredEntries(): void {
  * Rate limiting middleware factory
  */
 export function createRateLimit(config: RateLimitConfig) {
-  return function rateLimit(req: any, res: any, next?: () => void): boolean {
+  return function rateLimit(req: NextApiRequest, res: NextApiResponse, next?: () => void): boolean {
     const clientId = getClientIdentifier(req)
     const key = `${clientId}:${config.windowMs}:${config.maxRequests}`
     const now = Date.now()
@@ -129,7 +134,7 @@ export const fileListRateLimit = createRateLimit(RATE_LIMIT_CONFIGS.fileList)
 /**
  * Input validation utilities
  */
-export function sanitizeString(input: any, maxLength = 1000): string {
+export function sanitizeString(input: unknown, maxLength = 1000): string {
   if (typeof input !== 'string') {
     throw new Error('Input must be a string')
   }
@@ -152,7 +157,7 @@ export function sanitizeString(input: any, maxLength = 1000): string {
 /**
  * Validate request body structure
  */
-export function validateRequestBody(body: any, requiredFields: string[]): void {
+export function validateRequestBody(body: unknown, requiredFields: string[]): void {
   if (!body || typeof body !== 'object') {
     throw new Error('Request body must be a valid object')
   }
@@ -168,10 +173,10 @@ export function validateRequestBody(body: any, requiredFields: string[]): void {
  * Security middleware wrapper for API endpoints
  */
 export function withSecurity(
-  handler: (req: any, res: any) => Promise<void>,
+  handler: (req: NextApiRequest, res: NextApiResponse) => Promise<void>,
   rateLimiter = apiRateLimit
 ) {
-  return async function securedHandler(req: any, res: any) {
+  return async function securedHandler(req: NextApiRequest, res: NextApiResponse) {
     try {
       // Apply rate limiting
       if (!rateLimiter(req, res)) {
@@ -185,7 +190,7 @@ export function withSecurity(
       await handler(req, res)
       
     } catch (error) {
-      console.error('Security middleware error:', error)
+      logger.error('Security middleware error:', error)
       res.status(500).json({
         success: false,
         error: 'Internal server error'

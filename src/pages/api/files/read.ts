@@ -1,6 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { promises as fs } from 'fs'
-import path from 'path'
 import { ApiResponse, ParseResult } from '../../../lib/types'
 import { parseOrgContent } from '../../../lib/utils/orgParser'
 import { validateFilePath, safeReadFile } from '../../../lib/security/pathValidation'
@@ -84,7 +82,7 @@ async function handler(
     })
 
   } catch (error) {
-    console.error('Error reading org file:', error)
+    // Error reading org file
     res.status(500).json({
       success: false,
       error: 'Failed to read org file',

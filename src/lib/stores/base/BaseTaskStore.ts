@@ -167,7 +167,7 @@ export function createBaseStoreImplementation<T extends BaseTaskStore>(
         t.status === 'NEXT' || t.status === 'WAITING'
       ).length
       
-      const baseStore = get() as any
+      const baseStore = get() as unknown as BaseTaskStore
       const overdue = baseStore.getOverdueTasks ? baseStore.getOverdueTasks().length : 0
       
       const byPriority: Record<'A' | 'B' | 'C', number> = {
@@ -234,7 +234,7 @@ export function createBaseStoreImplementation<T extends BaseTaskStore>(
               }
             }
           } catch (error) {
-            console.warn(`Failed to parse file ${file.path}:`, error)
+            // Failed to parse file
           }
         }
         

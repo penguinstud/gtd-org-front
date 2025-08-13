@@ -1,0 +1,81 @@
+* TODO Morning workout
+  SCHEDULED: <2025-08-13 Tue 09:30>
+  :PROPERTIES:
+  :EFFORT: 1h
+  :END:
+  Get some exercise to start the day
+
+* TODO Team standup meeting :work:
+  SCHEDULED: <2025-08-13 Tue 10:00>
+  :PROPERTIES:
+  :EFFORT: 30m
+  :CONTEXT: work
+  :END:
+  Daily sync with the team
+
+* TODO [#A] Review project proposal
+  SCHEDULED: <2025-08-13 Tue 11:00>
+  :PROPERTIES:
+  :PROJECT: Q3 Planning
+  :EFFORT: 2h
+  :END:
+  Review and provide feedback on the Q3 project proposal
+
+* TODO Lunch break
+  SCHEDULED: <2025-08-13 Tue 12:30>
+  :PROPERTIES:
+  :EFFORT: 1h
+  :END:
+
+* TODO [#B] Code review for feature branch
+  SCHEDULED: <2025-08-13 Tue 14:00>
+  :PROPERTIES:
+  :PROJECT: Website Redesign
+  :EFFORT: 1h
+  :END:
+  Review PR #123 for the new homepage design
+
+* TODO Call with client
+  SCHEDULED: <2025-08-13 Tue 15:30>
+  :PROPERTIES:
+  :EFFORT: 45m
+  :PROJECT: Client Portal
+  :END:
+  Discuss requirements for the new client portal
+
+* TODO [#A] Write daily report
+  SCHEDULED: <2025-08-13 Tue 17:00>
+  :PROPERTIES:
+  :EFFORT: 30m
+  :END:
+  Summarize today's progress and blockers
+
+* TODO Grocery shopping
+  SCHEDULED: <2025-08-13 Tue 18:30>
+  :PROPERTIES:
+  :EFFORT: 1h
+  :COST: 100
+  :END:
+  Pick up items for the week
+
+* TODO Evening meditation
+  SCHEDULED: <2025-08-13 Tue 21:00>
+  :PROPERTIES:
+  :EFFORT: 30m
+  :END:
+  Wind down with 30 minutes of meditation
+
+* TODO Prepare presentation
+  DEADLINE: <2025-08-15 Thu>
+  :PROPERTIES:
+  :PROJECT: Q3 Planning
+  :EFFORT: 3h
+  :END:
+  No specific time scheduled - should appear in unscheduled section
+
+* TODO [#B] Review budget spreadsheet
+  :PROPERTIES:
+  :AREA: Finance
+  :EFFORT: 1h
+  :END:
+  Another unscheduled task

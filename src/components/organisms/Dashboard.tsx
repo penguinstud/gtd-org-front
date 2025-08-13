@@ -12,14 +12,13 @@ export interface DashboardProps {
 }
 
 export function Dashboard({ className }: DashboardProps) {
-  const { 
-    tasks, 
-    loading, 
-    error, 
-    syncData, 
-    getTaskStats, 
-    getOverdueTasks, 
-    getTodaysTasks 
+  const {
+    loading,
+    error,
+    syncData,
+    getTaskStats,
+    getOverdueTasks,
+    getTodaysTasks
   } = useTaskStore()
   
   const { currentContext } = useAppStore()
@@ -215,7 +214,7 @@ export function Dashboard({ className }: DashboardProps) {
         <Card className="p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-              Today's Tasks
+              Today&apos;s Tasks
             </h3>
             <Badge variant="progress">{todaysTasks.length} tasks</Badge>
           </div>

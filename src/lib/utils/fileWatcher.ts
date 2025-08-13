@@ -1,5 +1,6 @@
 import chokidar from 'chokidar'
 import { useTaskStore } from '../stores/taskStore'
+import { logger } from './logger'
 
 export interface FileWatcherConfig {
   watchDirectories: string[]
@@ -21,7 +22,7 @@ class FileWatcher {
       return
     }
 
-    console.log('🔍 Starting file watcher for org files...')
+    logger.info('🔍 Starting file watcher for org files...')
     
     this.watcher = chokidar.watch(this.config.watchDirectories, {
       ignored: /(^|[\/\\])\../, // ignore dotfiles
@@ -35,16 +36,16 @@ class FileWatcher {
       .on('change', (path) => this.handleFileChange('change', path))
       .on('unlink', (path) => this.handleFileChange('unlink', path))
       .on('error', (error) => {
-        console.error('File watcher error:', error)
+        logger.error('File watcher error:', error)
       })
       .on('ready', () => {
-        console.log('✅ File watcher ready. Watching for org file changes...')
+        logger.info('✅ File watcher ready. Watching for org file changes...')
       })
   }
 
   stop() {
     if (this.watcher) {
-      console.log('⏹️ Stopping file watcher...')
+      logger.info('⏹️ Stopping file watcher...')
       this.watcher.close()
       this.watcher = null
     }
@@ -61,7 +62,7 @@ class FileWatcher {
       return
     }
 
-    console.log(`📝 File ${event}: ${filePath}`)
+    logger.info(`📝 File ${event}: ${filePath}`)
 
     // Debounce rapid file changes
     if (this.debounceTimer) {
@@ -75,12 +76,12 @@ class FileWatcher {
 
   private async syncData() {
     try {
-      console.log('🔄 File change detected, syncing data...')
+      logger.info('🔄 File change detected, syncing data...')
       const taskStore = useTaskStore.getState()
       await taskStore.syncData()
-      console.log('✅ Data sync completed')
+      logger.info('✅ Data sync completed')
     } catch (error) {
-      console.error('❌ Failed to sync data after file change:', error)
+      logger.error('❌ Failed to sync data after file change:', error)
     }
   }
 

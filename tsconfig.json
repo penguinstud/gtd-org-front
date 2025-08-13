@@ -23,11 +23,12 @@
       "@/*": ["./src/*"],
       "@/components/*": ["./src/components/*"],
       "@/pages/*": ["./src/pages/*"],
-      "@/hooks/*": ["./src/hooks/*"],
-      "@/stores/*": ["./src/stores/*"],
-      "@/types/*": ["./src/types/*"],
-      "@/utils/*": ["./src/utils/*"],
-      "@/styles/*": ["./src/styles/*"]
+      "@/hooks/*": ["./src/lib/hooks/*"],
+      "@/stores/*": ["./src/lib/stores/*"],
+      "@/types/*": ["./src/lib/types/*"],
+      "@/utils/*": ["./src/lib/utils/*"],
+      "@/styles/*": ["./src/styles/*"],
+      "@/lib/*": ["./src/lib/*"]
     }
   },
   "include": [

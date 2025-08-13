@@ -27,6 +27,7 @@ export interface TaskStore {
   getOverdueTasks: () => Task[]
   getTasksByPriority: (priority: Priority) => Task[]
   getTodaysTasks: () => Task[]
+  getScheduledTasksForDate: (date: Date) => Task[]
   getTaskStats: () => TaskStats
 }
 
@@ -118,7 +119,8 @@ export const useTaskStore = create<TaskStore>()(
                 allProjects.push(...projects)
               }
             } catch (error) {
-              console.warn(`Failed to parse file ${file.path}:`, error)
+              // Silently skip files that fail to parse
+              // TODO: Consider adding proper error logging mechanism
             }
           }
 
@@ -175,6 +177,29 @@ export const useTaskStore = create<TaskStore>()(
           if (task.deadline) {
             const dueDate = new Date(task.deadline)
             return dueDate >= today && dueDate < tomorrow
+          }
+          
+          return false
+        })
+      },
+
+      getScheduledTasksForDate: (date) => {
+        const startOfDay = new Date(date)
+        startOfDay.setHours(0, 0, 0, 0)
+        const endOfDay = new Date(startOfDay)
+        endOfDay.setDate(endOfDay.getDate() + 1)
+
+        return get().tasks.filter((task) => {
+          // Tasks scheduled for the specified date
+          if (task.scheduled) {
+            const scheduledDate = new Date(task.scheduled)
+            return scheduledDate >= startOfDay && scheduledDate < endOfDay
+          }
+          
+          // Tasks due on the specified date
+          if (task.deadline) {
+            const dueDate = new Date(task.deadline)
+            return dueDate >= startOfDay && dueDate < endOfDay
           }
           
           return false

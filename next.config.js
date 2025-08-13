@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
   images: {
     domains: [],
   },
@@ -84,20 +81,6 @@ const nextConfig = {
         ],
       },
     ]
-  },
-  // Enable experimental features
-  experimental: {
-    // Enable Server Components
-    appDir: true,
-    // Enable turbo mode for faster builds
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
-      },
-    },
   },
 }
 

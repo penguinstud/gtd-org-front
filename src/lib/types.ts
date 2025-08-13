@@ -42,7 +42,7 @@ export interface Task {
   cost?: number // for home context
   area?: string // for home context (Finance, Health, Learning, etc.)
   tags: string[]
-  properties: Record<string, any>
+  properties: Record<string, unknown>
   created: Date
   modified: Date
   completedAt?: Date
@@ -87,7 +87,7 @@ export interface HealthActivity {
   description?: string
   duration?: number // minutes
   date: Date
-  properties?: Record<string, any>
+  properties?: Record<string, unknown>
 }
 
 // Expense entry
@@ -206,7 +206,7 @@ export interface AppSettings {
 }
 
 // API response types
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   success: boolean
   data?: T
   error?: string
@@ -315,7 +315,7 @@ export interface QuickCaptureData {
   type: 'task' | 'expense' | 'journal' | 'health' | 'learning' | 'meeting'
   content: string
   context: Context
-  metadata?: Record<string, any>
+  metadata?: Record<string, unknown>
 }
 
 // Integration types
@@ -338,7 +338,7 @@ export interface BackupInfo {
 export interface AppError {
   code: string
   message: string
-  details?: any
+  details?: unknown
   timestamp: Date
 }
 
@@ -350,8 +350,8 @@ export type AppEvent =
   | { type: 'PROJECT_CREATED'; payload: Project }
   | { type: 'PROJECT_UPDATED'; payload: Project }
   | { type: 'CONTEXT_SWITCHED'; payload: Context }
-  | { type: 'SYNC_STARTED'; payload: {} }
-  | { type: 'SYNC_COMPLETED'; payload: {} }
+  | { type: 'SYNC_STARTED'; payload: Record<string, never> }
+  | { type: 'SYNC_COMPLETED'; payload: Record<string, never> }
   | { type: 'SYNC_ERROR'; payload: { error: string } }
 
 // Parser-specific types

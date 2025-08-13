@@ -74,7 +74,7 @@ async function handler(
       home: process.env.ORG_HOME_DIR || path.join(process.cwd(), 'org/home')
     }
 
-    let directories: { path: string; context: Context }[] = []
+    const directories: { path: string; context: Context }[] = []
 
     if (pathParam) {
       // Custom path provided - validate it first
@@ -101,7 +101,7 @@ async function handler(
         const contextFilteredFiles = dirFiles.filter(file => file.context === contextParam)
         files.push(...contextFilteredFiles)
       } catch (error) {
-        console.warn(`Failed to list files in ${dir.path}:`, error)
+        // Failed to list files in directory - continue with other directories
         // Continue with other directories instead of failing completely
       }
     }
@@ -110,7 +110,7 @@ async function handler(
     const validatedFiles = files.filter(file => file.context === contextParam)
     
     if (validatedFiles.length !== files.length) {
-      console.warn(`Context isolation warning: Found ${files.length - validatedFiles.length} files with incorrect context`)
+      // Context isolation warning: Found files with incorrect context
     }
 
     res.status(200).json({
@@ -122,7 +122,7 @@ async function handler(
     })
 
   } catch (error) {
-    console.error('Error listing org files:', error)
+    // Error listing org files
     res.status(500).json({
       success: false,
       error: 'Failed to list org files',
@@ -140,7 +140,7 @@ async function listOrgFilesInDirectory(dirPath: string, context: Context): Promi
   // Validate directory path for security
   const dirValidation = validateDirectoryPath(dirPath)
   if (!dirValidation.isValid) {
-    console.warn(`Invalid directory path rejected: ${dirPath} - ${dirValidation.error}`)
+    // Invalid directory path rejected
     return files
   }
 
@@ -162,7 +162,7 @@ async function listOrgFilesInDirectory(dirPath: string, context: Context): Promi
       // Validate each file path for additional security
       const fileValidation = validateFilePath(fullPath)
       if (!fileValidation.isValid) {
-        console.warn(`File rejected due to security validation: ${fullPath} - ${fileValidation.error}`)
+        // File rejected due to security validation
         continue
       }
 
@@ -176,7 +176,7 @@ async function listOrgFilesInDirectory(dirPath: string, context: Context): Promi
           lastModified: stats.mtime
         })
       } catch (error) {
-        console.warn(`Failed to get stats for ${fullPath}:`, error)
+        // Failed to get stats for file
       }
       
     } else if (entry.isDirectory() && !entry.name.startsWith('.')) {
@@ -185,7 +185,7 @@ async function listOrgFilesInDirectory(dirPath: string, context: Context): Promi
         const subFiles = await listOrgFilesInDirectory(fullPath, context)
         files.push(...subFiles)
       } catch (error) {
-        console.warn(`Failed to list subdirectory ${fullPath}:`, error)
+        // Failed to list subdirectory
       }
     }
   }

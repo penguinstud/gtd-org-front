@@ -87,7 +87,7 @@ export const useAppStore = create<AppStore>()(
               useHomeStore.getState().syncData()
             ])
           } catch (error) {
-            console.error('Failed to sync all contexts:', error)
+            // Failed to sync all contexts
           }
         },
         
