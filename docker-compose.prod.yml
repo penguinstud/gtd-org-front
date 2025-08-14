@@ -1,28 +1,19 @@
-version: '3.8'
 services:
   web:
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "3001:3000"
     volumes:
-      # Application code mount (development mode needs write access for hot reload)
-      - .:/app
-      - /app/node_modules
-      - /app/.next
-      # Writable org-files directory with specific permissions
+      # Only mount org-files directory for data persistence
       - ./org-files:/app/org-files:rw
-      # Temporary directory for secure operations
-      - /tmp/gtd-org-front:/tmp:rw
     environment:
-      - NODE_ENV=development
-      - WATCHPACK_POLLING=true
+      - NODE_ENV=production
       - ORG_WORK_DIR=/app/org-files/work
       - ORG_HOME_DIR=/app/org-files/home
     # Security context
     user: "1001:1001"  # nextjs user from Dockerfile
-    read_only: false  # Need write access for temp files
     cap_drop:
       - ALL
     cap_add:

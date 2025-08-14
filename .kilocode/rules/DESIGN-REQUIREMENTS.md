@@ -208,35 +208,6 @@ This document outlines the design requirements for creating a Monday.com-inspire
 - **Options**: Hover states with light background
 - **Multi-select**: Chip-style selected items
 
-## Layout Specifications
-
-### Desktop Layout (1200px+)
-```
-┌────────────────────────────────────────────────────┐
-│ Header (64px height)                               │
-├──────┬─────────────────────────────────────────────┤
-│      │ Board Area                                  │
-│ Side │ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐            │
-│ bar  │ │TODO │ │NEXT │ │WAIT │ │DONE │            │
-│(240) │ │     │ │     │ │     │ │     │            │
-│      │ │ [□] │ │ [□] │ │ [□] │ │ [□] │            │
-│      │ │ [□] │ │ [□] │ │     │ │ [□] │            │
-│      │ │ [□] │ │     │ │     │ │     │            │
-│      │ └─────┘ └─────┘ └─────┘ └─────┘            │
-└──────┴─────────────────────────────────────────────┘
-```
-
-### Tablet Layout (768px - 1199px)
-- Collapsible sidebar (hamburger menu)
-- Horizontal scroll for board columns
-- Stacked navigation
-
-### Mobile Layout (<768px)
-- Full-width layout
-- Bottom navigation
-- Swipeable board columns
-- Simplified cards
-
 ## Interaction Patterns
 
 ### Drag and Drop

@@ -10,12 +10,13 @@ Templates are page-level components that provide consistent structure and layout
 ## Component Specifications
 
 ### PageLayout Component
-- **Purpose**: Consistent page structure across all routes
-- **Composition**: PremiumTopNav + main content area + responsive container
-- **Props**: `children`, `title`, `description`, `showNav`
-- **Features**: SEO metadata, responsive design, loading states
+- **Purpose**: Consistent content structure across all pages (without navigation)
+- **Composition**: Main content area + optional sidebar + responsive container
+- **Props**: `children`, `title`, `actions`, `variant`, `currentPath`
+- **Features**: Content layout, page headers, sidebar support
+- **Note**: Navigation (PremiumTopNav) is rendered globally in `_app.tsx`
 ```typescript
-<PageLayout title="Dashboard" description="Task overview">
+<PageLayout title="Dashboard" variant="sidebar" currentPath="/dashboard">
   <Dashboard />
 </PageLayout>
 ```
@@ -24,13 +25,11 @@ Templates are page-level components that provide consistent structure and layout
 
 ### Standard Page Structure
 ```typescript
-export const PageLayout = ({ children, title }) => (
-  <div className="min-h-screen bg-workspace">
-    <Head>
-      <title>{title} | GTD Org</title>
-    </Head>
-    <PremiumTopNav />
-    <main className="container mx-auto px-4 py-8">
+// Navigation is rendered in _app.tsx
+export const PageLayout = ({ children, title, actions }) => (
+  <div className="bg-workspace">
+    <main className="max-w-7xl mx-auto p-6">
+      <PageHeader title={title} actions={actions} />
       {children}
     </main>
   </div>

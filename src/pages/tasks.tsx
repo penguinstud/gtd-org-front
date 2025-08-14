@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { PageLayout } from '../components/templates/PageLayout'
-import { Card } from '../components/molecules/Card'
+import { Card, FormInput, FormSelect } from '../components/molecules'
 import { Badge } from '../components/atoms/Badge'
 import { Button } from '../components/atoms/Button'
 import { useTaskStore, useAppStore } from '../lib/stores'
@@ -468,21 +468,20 @@ export default function TasksPage() {
             {/* Search and main filters */}
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1">
-                <input
+                <FormInput
                   type="text"
                   placeholder="Search tasks..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  fullWidth
                 />
               </div>
               
               <div className="flex gap-2">
                 {/* Status filter */}
-                <select
+                <FormSelect
                   value={statusFilter.join(',')}
                   onChange={(e) => setStatusFilter(e.target.value ? e.target.value.split(',') as TaskStatus[] : [])}
-                  className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">All Status</option>
                   <option value="TODO">TODO</option>
@@ -491,25 +490,23 @@ export default function TasksPage() {
                   <option value="SOMEDAY">SOMEDAY</option>
                   <option value="DONE">DONE</option>
                   <option value="CANCELED">CANCELED</option>
-                </select>
+                </FormSelect>
                 
                 {/* Priority filter */}
-                <select
+                <FormSelect
                   value={priorityFilter.join(',')}
                   onChange={(e) => setPriorityFilter(e.target.value ? e.target.value.split(',') as Priority[] : [])}
-                  className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">All Priority</option>
                   <option value="A">High (A)</option>
                   <option value="B">Medium (B)</option>
                   <option value="C">Low (C)</option>
-                </select>
+                </FormSelect>
                 
                 {/* Project filter */}
-                <select
+                <FormSelect
                   value={projectFilter}
                   onChange={(e) => setProjectFilter(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">All Projects</option>
                   {projects.map((project) => (
@@ -517,7 +514,7 @@ export default function TasksPage() {
                       {project.title}
                     </option>
                   ))}
-                </select>
+                </FormSelect>
               </div>
             </div>
             

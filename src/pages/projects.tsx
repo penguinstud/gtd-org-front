@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { PageLayout } from '../components/templates/PageLayout'
 import { Card, CardContent, CardHeader } from '../components/molecules/Card'
+import { FormInput, FormSelect } from '../components/molecules'
 import { Badge } from '../components/atoms/Badge'
 import { Button } from '../components/atoms/Button'
 import { useTaskStore, useAppStore } from '../lib/stores'
@@ -385,38 +386,36 @@ export default function ProjectsPage() {
             {/* Search and filters row */}
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1">
-                <input
+                <FormInput
                   type="text"
                   placeholder="Search projects..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  fullWidth
                 />
               </div>
               
               <div className="flex gap-2">
-                <select
+                <FormSelect
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="all">All Status</option>
                   <option value="ACTIVE">Active</option>
                   <option value="SOMEDAY">Someday</option>
                   <option value="COMPLETED">Completed</option>
                   <option value="ARCHIVED">Archived</option>
-                </select>
+                </FormSelect>
                 
-                <select
+                <FormSelect
                   value={priorityFilter}
                   onChange={(e) => setPriorityFilter(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="all">All Priority</option>
                   <option value="A">High (A)</option>
                   <option value="B">Medium (B)</option>
                   <option value="C">Low (C)</option>
-                </select>
+                </FormSelect>
               </div>
             </div>
             

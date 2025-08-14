@@ -50,6 +50,15 @@ Each directory contains its own CLAUDE.md file with detailed information:
 4. **Local-First**: No cloud dependencies, complete privacy
 5. **Security-First**: Path validation, rate limiting, CSP headers
 
+## Recent Architecture Improvements (January 2025)
+1. **Navigation Refactoring**: PremiumTopNav now renders exclusively in `_app.tsx`, eliminating duplicate rendering
+2. **Component Simplification**: PageLayout focuses solely on content layout without navigation concerns
+3. **Identified Modularization Opportunities**:
+   - Form input components for consistent styling
+   - Unified task item components across pages
+   - Specialized modal components for common operations
+   - Filter and sort control components
+
 ## Common Development Tasks
 
 ### Adding a New Component

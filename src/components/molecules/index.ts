@@ -19,6 +19,11 @@ export { PriorityDistributionCard } from './PriorityDistributionCard'
 export { QuickActionButton } from './QuickActionButton'
 export { TaskListCard } from './TaskListCard'
 
+// Form components
+export { FormInput } from './FormInput'
+export { FormSelect } from './FormSelect'
+export { FormTextarea } from './FormTextarea'
+
 // Re-export from atoms for convenience
 export { Badge, type BadgeProps } from '../atoms/Badge'
 export { Button, type ButtonProps } from '../atoms/Button'

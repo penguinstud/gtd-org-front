@@ -1,0 +1,14 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      # Only mount org-files for data persistence
+      - ./org-files:/app/org-files:rw
+    environment:
+      - NODE_ENV=development
+      - ORG_WORK_DIR=/app/org-files/work
+      - ORG_HOME_DIR=/app/org-files/home

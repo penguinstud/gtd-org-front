@@ -1,6 +1,5 @@
 import React from 'react'
 import Link from 'next/link'
-import { PremiumTopNav } from '../organisms/PremiumTopNav'
 import { NAVIGATION_ITEMS } from '../../lib/config/navigation'
 import { cn } from '../../lib/utils/cn'
 
@@ -8,12 +7,6 @@ interface PageLayoutProps {
   children: React.ReactNode
   title: string
   actions?: React.ReactNode
-  currentContext?: 'work' | 'home'
-  onContextSwitch?: (context: 'work' | 'home') => void
-  user?: {
-    name: string
-    avatar?: string
-  }
   variant?: 'default' | 'sidebar'
   currentPath?: string
 }
@@ -26,19 +19,10 @@ const BaseLayout: React.FC<BaseLayoutProps> = ({
   children,
   title,
   actions,
-  currentContext = 'work',
-  onContextSwitch,
-  user,
   sidebar
 }) => {
   return (
-    <div className="bg-workspace min-h-screen">
-      <PremiumTopNav 
-        currentContext={currentContext}
-        onContextSwitch={onContextSwitch}
-        user={user}
-      />
-      
+    <div className="bg-workspace">
       {sidebar ? (
         <div className="flex">
           {sidebar}

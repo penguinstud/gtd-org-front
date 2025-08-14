@@ -110,9 +110,14 @@ describe('Modal', () => {
 - Optimize animations with CSS transforms
 - Debounce interactive state changes
 
+## Form Components (Implemented)
+- `FormInput` - Reusable text input with consistent styling
+- `FormSelect` - Dropdown select with consistent styling  
+- `FormTextarea` - Textarea with consistent styling
+- All form components support labels, errors, and fullWidth prop
+
 ## Future Molecules (Planned)
-- `FormField` - Label + Input + Error composition
-- `Dropdown` - Menu with options
+- `Dropdown` - Advanced menu with options
 - `SearchBar` - Input + Icon + Clear button
 - `Notification` - Alert/toast component
 - `DataTable` - Table with sorting/filtering

@@ -1,0 +1,46 @@
+# Development Dockerfile for Next.js with hot-reload
+FROM node:18-alpine
+
+# Install security updates and dumb-init
+RUN apk update && apk upgrade && \
+    apk add --no-cache dumb-init libc6-compat && \
+    rm -rf /var/cache/apk/*
+
+# Create app directory
+WORKDIR /app
+
+# Create a non-root user
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nextjs -u 1001
+
+# Copy package files
+COPY package*.json ./
+
+# Install all dependencies (including dev dependencies)
+RUN npm ci
+
+# Copy application code
+COPY --chown=nextjs:nodejs . .
+
+# Create necessary directories with proper permissions
+RUN mkdir -p /app/org-files/work /app/org-files/home && \
+    chown -R nextjs:nodejs /app && \
+    chmod 755 /app/org-files
+
+# Switch to non-root user
+USER nextjs
+
+# Expose port
+EXPOSE 3000
+
+# Environment variables for development
+ENV NODE_ENV=development
+ENV WATCHPACK_POLLING=true
+
+# Use dumb-init and run dev server
+ENTRYPOINT ["dumb-init", "--"]
+CMD ["npm", "run", "dev"]
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:3000/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })" || exit 1

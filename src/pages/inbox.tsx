@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { PageLayout } from '../components/templates/PageLayout'
-import { Card, Modal } from '../components/molecules'
+import { Card, Modal, FormInput, FormSelect } from '../components/molecules'
 import { Badge } from '../components/atoms/Badge'
 import { Button } from '../components/atoms/Button'
 import { TaskCreationModal } from '../components/organisms/TaskCreationModal'
@@ -380,37 +380,35 @@ export default function InboxPage() {
             {/* Search and filters */}
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1">
-                <input
+                <FormInput
                   type="text"
                   placeholder="Search tasks..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  fullWidth
                 />
               </div>
               
               <div className="flex gap-2">
-                <select
+                <FormSelect
                   value={filterStatus}
                   onChange={(e) => setFilterStatus(e.target.value as TaskStatus | 'all')}
-                  className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="all">All Status</option>
                   <option value="TODO">TODO</option>
                   <option value="NEXT">NEXT</option>
                   <option value="WAITING">WAITING</option>
                   <option value="DONE">DONE</option>
-                </select>
+                </FormSelect>
                 
-                <select
+                <FormSelect
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
-                  className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="created">Sort by Created</option>
                   <option value="priority">Sort by Priority</option>
                   <option value="deadline">Sort by Deadline</option>
-                </select>
+                </FormSelect>
               </div>
             </div>
             
@@ -520,10 +518,10 @@ export default function InboxPage() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Date
                 </label>
-                <input
+                <FormInput
                   type="date"
                   defaultValue={new Date().toISOString().split('T')[0]}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  fullWidth
                 />
               </div>
               
@@ -531,10 +529,10 @@ export default function InboxPage() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Time
                 </label>
-                <input
+                <FormInput
                   type="time"
                   defaultValue="09:00"
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  fullWidth
                 />
               </div>
               
@@ -542,9 +540,9 @@ export default function InboxPage() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Duration (minutes)
                 </label>
-                <select
+                <FormSelect
                   defaultValue="30"
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  fullWidth
                 >
                   <option value="15">15 minutes</option>
                   <option value="30">30 minutes</option>
@@ -552,7 +550,7 @@ export default function InboxPage() {
                   <option value="60">1 hour</option>
                   <option value="90">1.5 hours</option>
                   <option value="120">2 hours</option>
-                </select>
+                </FormSelect>
               </div>
               
               <div className="flex justify-end gap-3 pt-4">
@@ -601,9 +599,9 @@ export default function InboxPage() {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Select Project
                 </label>
-                <select
+                <FormSelect
                   defaultValue=""
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  fullWidth
                 >
                   <option value="">No Project</option>
                   {projects.map((project) => (
@@ -611,17 +609,17 @@ export default function InboxPage() {
                       {project.title}
                     </option>
                   ))}
-                </select>
+                </FormSelect>
               </div>
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Create New Project
                 </label>
-                <input
+                <FormInput
                   type="text"
                   placeholder="Enter new project name..."
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  fullWidth
                 />
               </div>
               
