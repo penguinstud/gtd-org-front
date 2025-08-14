@@ -3,6 +3,7 @@ import { PageLayout } from '../components/templates/PageLayout'
 import { Card, Modal } from '../components/molecules'
 import { Badge } from '../components/atoms/Badge'
 import { Button } from '../components/atoms/Button'
+import { TaskCreationModal } from '../components/organisms/TaskCreationModal'
 import { useTaskStore, useAppStore } from '../lib/stores'
 import { cn } from '../lib/utils/cn'
 import { Task, TaskStatus, Priority } from '../lib/types'
@@ -182,6 +183,7 @@ export default function InboxPage() {
   const [filterStatus, setFilterStatus] = useState<TaskStatus | 'all'>('all')
   const [showScheduleModal, setShowScheduleModal] = useState<Task | null>(null)
   const [showProjectModal, setShowProjectModal] = useState<Task | null>(null)
+  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false)
   
   // Get inbox tasks (unfiled, unscheduled, or without project)
   const inboxTasks = useMemo(() => {
@@ -458,13 +460,22 @@ export default function InboxPage() {
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
               Tasks ({sortedTasks.length})
             </h2>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleSelectAll}
-            >
-              {selectedTasks.size === sortedTasks.length ? 'Deselect All' : 'Select All'}
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={() => setIsTaskModalOpen(true)}
+              >
+                New Task
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleSelectAll}
+              >
+                {selectedTasks.size === sortedTasks.length ? 'Deselect All' : 'Select All'}
+              </Button>
+            </div>
           </div>
           
           {sortedTasks.length === 0 ? (
@@ -644,6 +655,11 @@ export default function InboxPage() {
           </Modal>
         )}
       </div>
+
+      <TaskCreationModal
+        isOpen={isTaskModalOpen}
+        onClose={() => setIsTaskModalOpen(false)}
+      />
     </PageLayout>
   )
 }

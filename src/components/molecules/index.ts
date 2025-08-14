@@ -12,6 +12,7 @@ export {
 } from './Card'
 export { KpiCard, type KpiCardProps } from './KpiCard'
 export { Modal } from './Modal'
+export { SearchModal } from './SearchModal'
 
 // Re-export from atoms for convenience
 export { Badge, type BadgeProps } from '../atoms/Badge'

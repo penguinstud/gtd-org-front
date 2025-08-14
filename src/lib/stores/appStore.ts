@@ -34,7 +34,25 @@ export const useAppStore = create<AppStore>()(
       (set: (partial: Partial<AppStore> | ((state: AppStore) => Partial<AppStore>)) => void, get: () => AppStore) => ({
         // Initial state
         currentContext: 'work',
-        user: undefined,
+        user: {
+          id: 'default-user',
+          name: 'User',
+          email: 'user@example.com',
+          preferences: {
+            defaultContext: 'work',
+            theme: 'system',
+            enableAnimations: true,
+            notifications: {
+              deadlines: true,
+              dailyReview: true,
+              weeklyReview: false
+            },
+            orgPaths: {
+              workDir: '/org-files/work',
+              homeDir: '/org-files/home'
+            }
+          }
+        },
         settings: {
           enableFileWatching: true,
           autoBackup: true,

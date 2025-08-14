@@ -1,5 +1,6 @@
 import path from 'path'
 import { promises as fs } from 'fs'
+import { Context } from '../types'
 
 /**
  * Security utility for validating and sanitizing file paths
@@ -178,4 +179,82 @@ export async function safeReadFile(filePath: string): Promise<string> {
  */
 export function getAllowedDirectories(): string[] {
   return DEFAULT_CONFIG.allowedDirectories.map(dir => path.resolve(dir))
+}
+
+/**
+ * Lists all org files in a specific context directory
+ */
+export async function listOrgFiles(context: Context): Promise<string[]> {
+  const defaultPaths = {
+    work: process.env.ORG_WORK_DIR || path.join(process.cwd(), 'org-files/work'),
+    home: process.env.ORG_HOME_DIR || path.join(process.cwd(), 'org-files/home')
+  }
+  
+  const dirPath = defaultPaths[context]
+  const files: string[] = []
+  
+  // Validate directory path
+  const dirValidation = validateDirectoryPath(dirPath)
+  if (!dirValidation.isValid || !dirValidation.sanitizedPath) {
+    return files
+  }
+  
+  try {
+    await fs.access(dirValidation.sanitizedPath)
+    const entries = await fs.readdir(dirValidation.sanitizedPath, { withFileTypes: true })
+    
+    for (const entry of entries) {
+      const fullPath = path.join(dirValidation.sanitizedPath, entry.name)
+      
+      if (entry.isFile() && entry.name.endsWith('.org')) {
+        const fileValidation = validateFilePath(fullPath)
+        if (fileValidation.isValid && fileValidation.sanitizedPath) {
+          files.push(fileValidation.sanitizedPath)
+        }
+      } else if (entry.isDirectory() && !entry.name.startsWith('.')) {
+        // Recursively list subdirectories
+        const subFiles = await listOrgFilesInDirectory(fullPath)
+        files.push(...subFiles)
+      }
+    }
+  } catch {
+    // Directory doesn't exist or can't be accessed
+    return files
+  }
+  
+  return files
+}
+
+/**
+ * Helper function to recursively list org files in a directory
+ */
+async function listOrgFilesInDirectory(dirPath: string): Promise<string[]> {
+  const files: string[] = []
+  
+  const dirValidation = validateDirectoryPath(dirPath)
+  if (!dirValidation.isValid || !dirValidation.sanitizedPath) {
+    return files
+  }
+  
+  try {
+    const entries = await fs.readdir(dirValidation.sanitizedPath, { withFileTypes: true })
+    
+    for (const entry of entries) {
+      const fullPath = path.join(dirValidation.sanitizedPath, entry.name)
+      
+      if (entry.isFile() && entry.name.endsWith('.org')) {
+        const fileValidation = validateFilePath(fullPath)
+        if (fileValidation.isValid && fileValidation.sanitizedPath) {
+          files.push(fileValidation.sanitizedPath)
+        }
+      } else if (entry.isDirectory() && !entry.name.startsWith('.')) {
+        const subFiles = await listOrgFilesInDirectory(fullPath)
+        files.push(...subFiles)
+      }
+    }
+  } catch {
+    // Continue with empty array
+  }
+  
+  return files
 }

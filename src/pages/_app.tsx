@@ -5,22 +5,49 @@ import Link from 'next/link'
 import '../styles/globals.css'
 import '../styles/design-tokens.css'
 import { PremiumTopNav } from '../components/organisms/PremiumTopNav'
+import { TaskCreationModal } from '../components/organisms/TaskCreationModal'
 import { Badge } from '../components/atoms/Badge'
+import { Button } from '../components/atoms/Button'
 import { cn } from '../lib/utils/cn'
 import { useAppStore, useTaskStore } from '../lib/stores'
 import { NAVIGATION_ITEMS } from '../lib/config/navigation'
+import { useGlobalShortcuts } from '../lib/hooks/useKeyboardShortcuts'
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
-  const { currentContext, toggleContext } = useAppStore()
+  const { currentContext, toggleContext, user } = useAppStore()
   const { tasks, initialize } = useTaskStore()
   const [mounted, setMounted] = useState(false)
+  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false)
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
 
-  // Initialize stores on mount
+  // Initialize stores on mount and apply theme
   useEffect(() => {
     setMounted(true)
     initialize()
-  }, [initialize])
+    
+    // Apply theme from user preferences
+    if (user?.preferences?.theme) {
+      const theme = user.preferences.theme
+      if (theme === 'system') {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+        document.documentElement.classList.toggle('dark', prefersDark)
+      } else {
+        document.documentElement.classList.toggle('dark', theme === 'dark')
+      }
+    }
+  }, [initialize, user?.preferences?.theme])
+
+  // Set up global keyboard shortcuts
+  useGlobalShortcuts({
+    onSearch: () => setIsSearchOpen(true),
+    onNewTask: () => setIsTaskModalOpen(true),
+    onNavigateInbox: () => router.push('/inbox'),
+    onNavigateDaily: () => router.push('/daily'),
+    onNavigateProjects: () => router.push('/projects'),
+    onNavigateTasks: () => router.push('/tasks'),
+    onContextSwitch: () => toggleContext()
+  })
 
   // Get inbox count for badge
   const inboxCount = tasks.filter(task =>
@@ -39,7 +66,8 @@ export default function App({ Component, pageProps }: AppProps) {
       <PremiumTopNav
         currentContext={currentContext}
         onContextSwitch={toggleContext}
-        user={{ name: 'User' }}
+        user={{ name: user?.name || 'User' }}
+        onNewTask={() => setIsTaskModalOpen(true)}
       />
       
       {/* Main Layout */}
@@ -85,6 +113,23 @@ export default function App({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </main>
       </div>
+
+      {/* Global Task Creation Modal */}
+      <TaskCreationModal
+        isOpen={isTaskModalOpen}
+        onClose={() => setIsTaskModalOpen(false)}
+      />
+
+      {/* Quick Action Button (mobile/tablet) */}
+      <Button
+        variant="primary"
+        size="lg"
+        onClick={() => setIsTaskModalOpen(true)}
+        className="fixed bottom-6 right-6 z-50 shadow-lg rounded-full w-14 h-14 flex items-center justify-center md:hidden"
+        aria-label="Create new task"
+      >
+        +
+      </Button>
     </div>
   )
 }
