@@ -25,7 +25,7 @@
 cd ~/Documents
 
 # Clone the repository
-git clone https://github.com/yourusername/gtd-org-front.git
+git clone https://github.com/penguinstud/gtd-org-front.git
 
 # Enter the project directory
 cd gtd-org-front
@@ -56,17 +56,17 @@ echo "ORG_HOME_DIR=/app/org-files/home" >> .env.local
 ## Important Configuration Notes
 
 ### Build Configuration
-The application requires the following settings in `next.config.js` to build successfully:
+The application now builds successfully without ignoring errors:
 ```javascript
 typescript: {
-  ignoreBuildErrors: true,  // Required due to type errors in current codebase
+  ignoreBuildErrors: false,  // All TypeScript errors have been fixed
 },
 eslint: {
-  ignoreDuringBuilds: true, // Required due to ESLint errors in current codebase
+  ignoreDuringBuilds: false, // All ESLint errors have been fixed
 }
 ```
 
-**Note:** These settings are already configured. In production, you should fix the underlying issues rather than ignoring them.
+**Note:** All build errors have been resolved. The application compiles cleanly without any TypeScript or ESLint issues.
 
 ## Deployment Methods
 
@@ -124,7 +124,7 @@ docker build -t gtd-org-front .
 ```bash
 # Run with volume mounts for persistent data
 docker run -d \
-  --name gtd-org \
+  --name gtd-org-front \
   -p 3000:3000 \
   -v $(pwd)/org-files:/app/org-files:rw \
   -v $(pwd):/app:ro \
@@ -144,16 +144,16 @@ docker run -d \
 #### Manage the Container
 ```bash
 # Stop the container
-docker stop gtd-org
+docker stop gtd-org-front
 
 # Start the container
-docker start gtd-org
+docker start gtd-org-front
 
 # Remove the container
-docker rm gtd-org
+docker rm gtd-org-front
 
 # View logs
-docker logs -f gtd-org
+docker logs -f gtd-org-front
 ```
 
 ## Accessing the Application
@@ -305,8 +305,8 @@ This deployment guide has been tested on macOS with the following results:
 # Using Docker Compose
 docker-compose ps
 
-# Check health status
-docker inspect gtd-org-front_web_1 --format='{{.State.Health.Status}}'
+# Check health status (container name may vary)
+docker inspect $(docker-compose ps -q web) --format='{{.State.Health.Status}}'
 
 # Test health endpoint
 curl http://localhost:3000/api/health

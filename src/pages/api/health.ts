@@ -21,7 +21,7 @@ export default function handler(
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
       version: '0.1.0'
-    } as any)
+    })
   }
 
   res.status(200).json({

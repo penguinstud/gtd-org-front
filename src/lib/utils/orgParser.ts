@@ -82,7 +82,7 @@ export interface ParsedTask {
   status: TaskStatus
   priority: Priority
   tags: string[]
-  properties: Record<string, any>
+  properties: Record<string, string | number | boolean>
   scheduled?: Date
   deadline?: Date
   context: Context
@@ -240,8 +240,8 @@ export function parseHeadline(headline: string): {
 /**
  * Parse property drawer content
  */
-export function parseProperties(propertyLines: string[]): Record<string, any> {
-  const properties: Record<string, any> = {}
+export function parseProperties(propertyLines: string[]): Record<string, string | number | boolean> {
+  const properties: Record<string, string | number | boolean> = {}
 
   for (const line of propertyLines) {
     const match = line.match(ORG_PATTERNS.PROPERTY_LINE)
@@ -257,7 +257,10 @@ export function parseProperties(propertyLines: string[]): Record<string, any> {
           properties.cost = parseFloat(value.trim()) || 0
           break
         case 'CONTEXT':
-          properties.context = value.trim().toLowerCase() as Context
+          const contextValue = value.trim().toLowerCase()
+          if (contextValue === 'work' || contextValue === 'home') {
+            properties.context = contextValue as Context
+          }
           break
         default:
           properties[key.toLowerCase()] = value.trim()
@@ -490,7 +493,9 @@ export class OrgParser {
       properties,
       scheduled: scheduled || undefined,
       deadline: deadline || undefined,
-      context: properties.context || this.context,
+      context: (typeof properties.context === 'string' && (properties.context === 'work' || properties.context === 'home')) 
+        ? properties.context as Context 
+        : this.context,
       description: description.trim() || undefined
     }
 
@@ -520,13 +525,13 @@ export class OrgParser {
       description: item.description,
       status: item.status,
       priority: item.priority || null,
-      project: item.properties.project,
+      project: typeof item.properties.project === 'string' ? item.properties.project : undefined,
       context: item.context,
       scheduled: item.scheduled || undefined,
       deadline: item.deadline || undefined,
-      effort: item.properties.effort || 0,
-      cost: item.properties.cost || 0,
-      area: item.properties.area,
+      effort: typeof item.properties.effort === 'number' ? item.properties.effort : 0,
+      cost: typeof item.properties.cost === 'number' ? item.properties.cost : 0,
+      area: typeof item.properties.area === 'string' ? item.properties.area : undefined,
       tags: item.tags,
       properties: item.properties,
       created: now,
@@ -548,7 +553,7 @@ export class OrgParser {
       status: 'ACTIVE',
       context: item.context,
       tasks: [], // Tasks will be associated separately
-      area: item.properties.area,
+      area: typeof item.properties.area === 'string' ? item.properties.area : undefined,
       priority: item.priority || null,
       created: now,
       modified: now

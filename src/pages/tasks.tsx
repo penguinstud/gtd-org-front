@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useState, useMemo, useCallback } from 'react'
 import { PageLayout } from '../components/templates/PageLayout'
 import { Card, FormInput, FormSelect } from '../components/molecules'
 import { Badge } from '../components/atoms/Badge'
@@ -257,18 +257,18 @@ export default function TasksPage() {
   const [projectFilter, setProjectFilter] = useState<string>('')
   const [overdueOnly, setOverdueOnly] = useState(false)
   
-  // Build filter object
-  const filters: TaskFilter = {
-    status: statusFilter.length > 0 ? statusFilter : undefined,
-    priority: priorityFilter.length > 0 ? priorityFilter : undefined,
-    projects: projectFilter ? [projectFilter] : undefined,
-    isOverdue: overdueOnly,
-    searchText: searchQuery,
-    contexts: [currentContext]
-  }
-  
   // Filter and sort tasks
   const processedTasks = useMemo(() => {
+    // Build filter object
+    const filters: TaskFilter = {
+      status: statusFilter.length > 0 ? statusFilter : undefined,
+      priority: priorityFilter.length > 0 ? priorityFilter : undefined,
+      projects: projectFilter ? [projectFilter] : undefined,
+      isOverdue: overdueOnly,
+      searchText: searchQuery,
+      contexts: [currentContext]
+    }
+    
     let filtered = filterTasks(tasks, filters)
     
     // Hide completed tasks if requested
@@ -278,7 +278,7 @@ export default function TasksPage() {
     
     // Sort tasks
     return sortTasks(filtered, sortField, sortDirection)
-  }, [tasks, filters, showCompleted, sortField, sortDirection])
+  }, [tasks, statusFilter, priorityFilter, projectFilter, overdueOnly, searchQuery, currentContext, showCompleted, sortField, sortDirection])
   
   // Group tasks if needed
   const groupedTasks = useMemo(() => {
@@ -302,7 +302,7 @@ export default function TasksPage() {
   }, [tasks, currentContext])
   
   // Action handlers
-  const handleToggleSelect = (taskId: string) => {
+  const handleToggleSelect = useCallback((taskId: string) => {
     const newSelected = new Set(selectedTasks)
     if (newSelected.has(taskId)) {
       newSelected.delete(taskId)
@@ -310,31 +310,31 @@ export default function TasksPage() {
       newSelected.add(taskId)
     }
     setSelectedTasks(newSelected)
-  }
+  }, [selectedTasks])
   
-  const handleSelectAll = () => {
+  const handleSelectAll = useCallback(() => {
     if (selectedTasks.size === processedTasks.length) {
       setSelectedTasks(new Set())
     } else {
       setSelectedTasks(new Set(processedTasks.map(t => t.id)))
     }
-  }
+  }, [selectedTasks.size, processedTasks])
   
-  const handleBatchUpdate = (updates: Partial<Task>) => {
+  const handleBatchUpdate = useCallback((updates: Partial<Task>) => {
     selectedTasks.forEach(taskId => {
       updateTask(taskId, updates)
     })
     setSelectedTasks(new Set())
-  }
+  }, [selectedTasks, updateTask])
   
-  const handleBatchDelete = () => {
+  const handleBatchDelete = useCallback(() => {
     if (confirm(`Are you sure you want to delete ${selectedTasks.size} tasks?`)) {
       selectedTasks.forEach(taskId => {
         deleteTask(taskId)
       })
       setSelectedTasks(new Set())
     }
-  }
+  }, [selectedTasks, deleteTask])
   
   const toggleSort = (field: TaskSortField) => {
     if (sortField === field) {
@@ -374,7 +374,7 @@ export default function TasksPage() {
     
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [selectedTasks])
+  }, [selectedTasks, handleSelectAll, handleBatchDelete, handleBatchUpdate])
   
   if (loading) {
     return (

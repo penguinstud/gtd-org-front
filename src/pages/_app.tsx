@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   // Set up global keyboard shortcuts
   useGlobalShortcuts({
-    onSearch: () => console.log('Search triggered'),
+    onSearch: () => {}, // Search will be handled by the PremiumTopNav
     onNewTask: () => setIsTaskModalOpen(true),
     onNavigateInbox: () => router.push('/inbox'),
     onNavigateDaily: () => router.push('/daily'),

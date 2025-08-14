@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { PageLayout } from '../components/templates/PageLayout'
-import { Card, CardContent, CardHeader } from '../components/molecules/Card'
+import { Card } from '../components/molecules/Card'
 import { FormInput, FormSelect } from '../components/molecules'
 import { Badge } from '../components/atoms/Badge'
 import { Button } from '../components/atoms/Button'
 import { useTaskStore, useAppStore } from '../lib/stores'
 import { cn } from '../lib/utils/cn'
-import { Task, Priority } from '../lib/types'
+import { Task } from '../lib/types'
 import { ProjectStats } from '../lib/stores/base/BaseTaskStore'
 
 // Project List Item Component
@@ -213,7 +213,7 @@ function ProjectListItem({
 
 // Main Projects Page Component
 export default function ProjectsPage() {
-  const { tasks, projects, loading, error, syncData, updateTask, getAllProjectStats, getProjectOverallStats } = useTaskStore()
+  const { tasks, loading, error, syncData, updateTask, getAllProjectStats, getProjectOverallStats } = useTaskStore()
   const { currentContext } = useAppStore()
   
   // State

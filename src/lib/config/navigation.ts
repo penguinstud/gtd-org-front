@@ -1,9 +1,18 @@
-import { NavigationItem } from '../../components/organisms/EnhancedNavigation'
-
 /**
  * Navigation configuration for the GTD application
  * Centralized configuration eliminates duplication and makes the navigation data-driven
  */
+
+export interface NavigationItem {
+  id: string
+  label: string
+  icon: string
+  path: string
+  badge?: {
+    count: number
+    variant: string
+  }
+}
 
 export const NAVIGATION_ITEMS: NavigationItem[] = [
   {

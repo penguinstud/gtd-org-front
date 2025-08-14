@@ -168,10 +168,10 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ currentContext, loadi
 
 const QuickActionsSection: React.FC = () => {
   const quickActions = [
-    { icon: '📝', label: 'Add Task', onClick: () => console.log('Add Task') },
-    { icon: '📥', label: 'Process Inbox', onClick: () => console.log('Process Inbox') },
-    { icon: '📊', label: 'View Projects', onClick: () => console.log('View Projects') },
-    { icon: '📅', label: 'Daily Plan', onClick: () => console.log('Daily Plan') }
+    { icon: '📝', label: 'Add Task', onClick: () => {} },
+    { icon: '📥', label: 'Process Inbox', onClick: () => {} },
+    { icon: '📊', label: 'View Projects', onClick: () => {} },
+    { icon: '📅', label: 'Daily Plan', onClick: () => {} }
   ]
 
   return (

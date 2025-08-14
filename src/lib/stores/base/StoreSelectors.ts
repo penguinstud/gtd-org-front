@@ -382,8 +382,8 @@ export function sortTasks(
   direction: SortDirection = 'desc'
 ): Task[] {
   const sorted = [...tasks].sort((a, b) => {
-    let aVal: any
-    let bVal: any
+    let aVal: string | number | Date
+    let bVal: string | number | Date
 
     switch (field) {
       case 'priority':
@@ -421,8 +421,8 @@ export function sortTasks(
         break
       
       default:
-        aVal = a[field as keyof Task]
-        bVal = b[field as keyof Task]
+        aVal = a[field as keyof Task] as string | number | Date
+        bVal = b[field as keyof Task] as string | number | Date
     }
 
     if (direction === 'asc') {

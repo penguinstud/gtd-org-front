@@ -15,15 +15,13 @@ const nextConfig = {
   },
   
   typescript: {
-    // Dangerously allow production builds to successfully complete even if
-    // your project has type errors.
-    ignoreBuildErrors: true,
+    // Type checking is now enabled during builds
+    ignoreBuildErrors: false,
   },
   
   eslint: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has ESLint errors.
-    ignoreDuringBuilds: true,
+    // ESLint checking is now enabled during builds
+    ignoreDuringBuilds: false,
   },
   
   // Webpack configuration for bundle optimization

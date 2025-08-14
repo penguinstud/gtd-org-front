@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback } from 'react'
 import { Button } from '../atoms/Button'
 import { SearchModal } from '../molecules/SearchModal'
 import { SearchResult } from '../../lib/types'
@@ -45,7 +45,7 @@ export function PremiumTopNav({
       const data = await response.json()
       return data.data?.results || []
     } catch (error) {
-      console.error('Search error:', error)
+      // Search failed, return empty results
       return []
     }
   }, [currentContext])
@@ -173,14 +173,6 @@ export function PremiumTopNav({
 }
 
 // Simple Icon Components (will be replaced with proper icon library)
-function SearchIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-    </svg>
-  )
-}
-
 function PlusIcon({ className }: { className?: string }) {
   return (
     <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">

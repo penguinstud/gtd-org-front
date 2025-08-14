@@ -98,9 +98,10 @@ export function createDynamicImport<P = Record<string, never>>(
 }
 
 // Preload components for better UX
-export const preloadComponent = (component: any) => {
-  if (component && typeof component === 'object' && 'preload' in component) {
-    component.preload()
+export const preloadComponent = (component: unknown) => {
+  if (component && typeof component === 'object' && component !== null && 'preload' in component) {
+    const preloadable = component as { preload?: () => void }
+    preloadable.preload?.()
   }
 }
 

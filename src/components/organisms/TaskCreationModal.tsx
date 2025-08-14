@@ -135,7 +135,7 @@ export function TaskCreationModal({
       addTask(newTask)
       onClose()
     } catch (error) {
-      console.error('Failed to create task:', error)
+      // Task creation failed
       setErrors({ title: 'Failed to create task. Please try again.' })
     } finally {
       setIsSubmitting(false)

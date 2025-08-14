@@ -122,21 +122,21 @@ export default function SettingsPage() {
   }, [localSettings, settings, userPreferences, user])
   
   // Handle settings update
-  const handleSettingChange = (key: keyof AppSettings, value: any) => {
+  const handleSettingChange = (key: keyof AppSettings, value: boolean | number | string) => {
     setLocalSettings(prev => ({ ...prev, [key]: value }))
   }
   
   // Handle preference update
-  const handlePreferenceChange = (path: string[], value: any) => {
+  const handlePreferenceChange = (path: string[], value: boolean | string | 'work' | 'home' | 'light' | 'dark' | 'system') => {
     setUserPreferences(prev => {
       const newPrefs = { ...prev }
-      let current: any = newPrefs
+      let current: Record<string, unknown> = newPrefs
       
       for (let i = 0; i < path.length - 1; i++) {
         if (!(path[i] in current)) {
           current[path[i]] = {}
         }
-        current = current[path[i]]
+        current = current[path[i]] as Record<string, unknown>
       }
       
       current[path[path.length - 1]] = value

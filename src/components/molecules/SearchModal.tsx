@@ -42,7 +42,7 @@ export function SearchModal({ isOpen, onClose, onSearch, onSelect }: SearchModal
         setResults(searchResults)
         setSelectedIndex(0)
       } catch (error) {
-        console.error('Search error:', error)
+        // Search failed, clear results
         setResults([])
       } finally {
         setLoading(false)
@@ -95,7 +95,7 @@ export function SearchModal({ isOpen, onClose, onSearch, onSelect }: SearchModal
   const getTypeColor = (type: SearchResult['type']) => {
     switch (type) {
       case 'task':
-        return 'primary'
+        return 'progress'
       case 'project':
         return 'secondary'
       case 'note':
@@ -144,7 +144,7 @@ export function SearchModal({ isOpen, onClose, onSearch, onSelect }: SearchModal
         <div className="max-h-96 overflow-y-auto">
           {results.length === 0 && query && !loading && (
             <div className="p-8 text-center text-gray-500 dark:text-gray-400">
-              No results found for "{query}"
+              No results found for &quot;{query}&quot;
             </div>
           )}
 
@@ -166,7 +166,7 @@ export function SearchModal({ isOpen, onClose, onSearch, onSelect }: SearchModal
                   <h3 className="font-medium text-gray-900 dark:text-white truncate">
                     {result.title}
                   </h3>
-                  <Badge variant={getTypeColor(result.type) as any} size="sm">
+                  <Badge variant={getTypeColor(result.type)} size="sm">
                     {result.type}
                   </Badge>
                   <Badge variant={result.context === 'work' ? 'progress' : 'planning'} size="sm">

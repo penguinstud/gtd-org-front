@@ -1,4 +1,4 @@
-export type TaskStatus = 'TODO' | 'NEXT' | 'DONE' | 'WAITING' | 'CANCELLED'
+export type TaskStatus = 'TODO' | 'NEXT' | 'DONE' | 'WAITING' | 'SOMEDAY' | 'CANCELED'
 export type Priority = 'A' | 'B' | 'C'
 export type BadgeVariant = 'default' | 'success' | 'progress' | 'blocked' | 'planning' | 'secondary'
 
@@ -8,7 +8,8 @@ export const getStatusBadgeVariant = (status: TaskStatus): BadgeVariant => {
     'NEXT': 'progress',
     'WAITING': 'planning',
     'TODO': 'secondary',
-    'CANCELLED': 'blocked'
+    'SOMEDAY': 'default',
+    'CANCELED': 'blocked'
   }
   return variants[status] || 'secondary'
 }
